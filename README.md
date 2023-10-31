@@ -31,6 +31,7 @@ Also a very short version of both the above and entire method that also worked t
 ==================================================================================
 sort of existing class expanding, or existing objects expanding. Weak referrences are mentioned in one answer, just i has had a look and possibly it is as if after some object removal what you have added to a class or object (don't remember) will be garbage-collected later-on. It's fine but good to know well.   
 extension, expando, remembering weak referrences
+https://github.com/vandadnp/flutter-tips-and-tricks/blob/main/tipsandtricks/using-expando-in-dart/using-expando-in-dart.md
 https://stackoverflow.com/questions/13358018/what-is-the-dart-expando-feature-about-what-does-it-do
 https://stackoverflow.com/questions/66835676/how-to-add-object-to-existing-class-code-in-dart
 
