@@ -35,3 +35,12 @@ https://github.com/vandadnp/flutter-tips-and-tricks/blob/main/tipsandtricks/usin
 https://stackoverflow.com/questions/13358018/what-is-the-dart-expando-feature-about-what-does-it-do
 https://stackoverflow.com/questions/66835676/how-to-add-object-to-existing-class-code-in-dart
 
+===================================================================================
+Why to you need to complete a Completer or Future must be finished not just it's LAST existing pointer to be set to null?
+Because setting to null won't finish the completer (tested), so any Future (not tested) too.
+What if 100000000 pending methods has async/await for one such a future? The methods will never complete and resources won't ever be released.
+So especially if such unfinished completer or future is assigned to a property of another object, make sure it is comlete() -ed or completeError() - ed. before you loose last pointer to an object handling it
+
+
+
+ 
