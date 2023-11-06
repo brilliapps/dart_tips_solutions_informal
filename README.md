@@ -41,6 +41,14 @@ Because setting to null won't finish the completer (tested), so any Future (not 
 What if 100000000 pending methods has async/await for one such a future? The methods will never complete and resources won't ever be released.
 So especially if such unfinished completer or future is assigned to a property of another object, make sure it is comlete() -ed or completeError() - ed. before you loose last pointer to an object handling it
 
+===================================================================================
+Trying to understand in general some important aspect of dispose method. In the process of improving understanding of this, this text may be updated.
+I have some trouble with the dispose() method so i need some analisys s. F.e. Listeneable abstract class has not this method but ChangeNotifier does, but in my opionion it would be more understandable from my narrow perspective that the dispose method is required in the Listeneable class. If in ChangeNotifier addListener of the latter adds a listener method to a internal list then removing last pointer to the change notifier would destroy the list so no listener is registered to an existing object. So it makes more sense when we read ChangeNotifier dispose description: "Discards any resources used by the object. After this is called, the object is not in a usable state and should be discarded (calls to addListener will throw after the object is disposed)." In other words if accidently there are more pointers to the ChangeNotifier and you may have forgotten about them the listeners haven't been removed. By calling the dispose method you want to release memory and possibly stop an object "working" UNTILE the last pointer to it is removed WHICH MAY NEVER HAPPEN.
+Now the major point:
+So When you call the dispose method on a State object you want to unsubscripte from a stream so that the stream is not maintained in memory or kept alive when last pointer to it was removed. You want to cancel any endles timer or animation. You want to take care of any attached stuff to attached stuff and try to release/remove it so that it is not somehow maintained by the framework when all your pointers are lost and you think memory should be released by by the design of the flutter framework their however are still in memory working actively or not.
+Also an example of such a ChangeNotifier is in this link https://api.flutter.dev/flutter/widgets/TextEditingController-class.html where they remind you "Remember to dispose of the TextEditingController when it is no longer needed. This will ensure we discard any resources used by the object."
 
+So a bit compatible qoutation from https://www.geeksforgeeks.org/flutter-dispose-method-with-example/ which helps me to understand the WHYs is as i suspected is the main reason not just loosing the last pointer to a variable that we want to "dispose" without calling the dispose() method:
+"Situations, where you need to call your dispose() method, could be turning off the notifications, unsubscribing, shutting off the animations, etc. "
 
- 
+====================================================================================
