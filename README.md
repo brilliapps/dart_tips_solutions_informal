@@ -36,11 +36,15 @@ https://stackoverflow.com/questions/13358018/what-is-the-dart-expando-feature-ab
 https://stackoverflow.com/questions/66835676/how-to-add-object-to-existing-class-code-in-dart
 
 ===================================================================================
+Read below about weakreferences, garbage collector, etc.
 Why to you need to complete a Completer or Future must be finished not just it's LAST existing pointer to be set to null?
 Because setting to null won't finish the completer (tested), so any Future (not tested) too.
 What if 100000000 pending methods has async/await for one such a future? The methods will never complete and resources won't ever be released.
 So especially if such unfinished completer or future is assigned to a property of another object, make sure it is comlete() -ed or completeError() - ed. before you loose last pointer to an object handling it
 
+===================================================================================
+One of the most important rule for a bit more advanced memory management.
+If you have SomeObject? abc = SomeObject(), and f.e. 10 x var efgh = WeakReference(abc); efgh2..., efgh3..., and nothing else (efgh.target is abc object) and then if after that you set abc = null; then right after that efgh.target = abc, but when the dart whenever it "randomly wants", f.e. 5 minutes later, triggers the Garbage Collector then all the 10 variables have their .target == null, efgh.target == null (efgh is still WeakReference instance but .target == null). One my test showed that all related objects to the abc also should dissapear at the same time in one GC only, like abc.some2object,some3object dissapears and there should be no referrence to it in let's say some kind do GC waiting room. 
 ===================================================================================
 Trying to understand in general some important aspect of dispose method. In the process of improving understanding of this, this text may be updated.
 I have some trouble with the dispose() method so i need some analisys s. F.e. Listeneable abstract class has not this method but ChangeNotifier does, but in my opionion it would be more understandable from my narrow perspective that the dispose method is required in the Listeneable class. If in ChangeNotifier addListener of the latter adds a listener method to a internal list then removing last pointer to the change notifier would destroy the list so no listener is registered to an existing object. So it makes more sense when we read ChangeNotifier dispose description: "Discards any resources used by the object. After this is called, the object is not in a usable state and should be discarded (calls to addListener will throw after the object is disposed)." In other words if accidently there are more pointers to the ChangeNotifier and you may have forgotten about them the listeners haven't been removed. By calling the dispose method you want to release memory and possibly stop an object "working" UNTILE the last pointer to it is removed WHICH MAY NEVER HAPPEN.
