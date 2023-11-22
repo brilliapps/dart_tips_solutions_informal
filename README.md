@@ -1,6 +1,8 @@
 dart_tips_solutions_informal
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ==================================================================================
+In progress so on the top: https://dart.dev/language/concurrency#implementing-a-simple-worker-isolate says that "If you’re using Flutter, you can use Flutter’s compute function instead of Isolate.run(). On the web, the compute function falls back to running the specified function on the current event loop." When we go to https://api.flutter.dev/flutter/foundation/compute.html we read: On web platforms this will run callback on the current eventloop. On native platforms this will run callback in a separate isolate. Can we do something about it? Investigating in progress..........................
+==================================================================================
 If you have TODO: FIXME: like places in vscode.
 https://github.com/microsoft/vscode/issues/9899
 and there f.e. vscode-todo-highlight with f.e. // TODO: AND FIXME: highlighting customisation
