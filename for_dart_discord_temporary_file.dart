@@ -1,4 +1,6 @@
 //PROBABLY FIRST CONCLUSIVE CODE (EXAMPLE DEBUG PRINT BELOW THE CODE) - READ COMMENTS AND DEBUGPRINT MESSAGES - the identical works fine, even if identity hashcodes (with some core dart non identity hashcodes as you can see from the code) may fail. So in rare occasions when you want f.e. for non extendable Function class object have totaly unique id (identity hashcode may fail as mentioned) then you need to add to the function or Function some totally unique custorm number/id which you can achieve through extesion on Function {} syntax or using Expando on objects or both.
+//IMPORTANT: after presenting on the Discord the code with comments some user said about identical operator (identical() checks if the two 
+//references to objects are pointing to the same object by comparing the memory address). Now you can read further.
 //Some important info down below: where this knowledge could possibly be needed? See at the bottom of the code.
 //The ultimate proving point code:
   int? anotherindentityhashcode;
@@ -41,6 +43,8 @@
 
 
 
+//IMPORTANT: after presenting on the Discord the code with comments some user said about identical operator (identical() checks if the two 
+//references to objects are pointing to the same object by comparing the memory address). Now you can read further.
 //PROBABLY FIRST CONCLUSIVE CODE - READ COMMENTS AND DEBUGPRINT MESSAGES - the identical works fine, even if identity hashcodes 
 //(with some core dart non identity hashcodes as you can see from the code) may fail. So in rare occasions when you want f.e. for
 //non extendable Function class object have totaly unique id (identity hashcode may fail as mentioned) then you need to add to the function
