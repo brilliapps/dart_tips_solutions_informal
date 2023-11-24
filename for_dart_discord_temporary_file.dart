@@ -1,4 +1,5 @@
 //PROBABLY FIRST CONCLUSIVE CODE (EXAMPLE DEBUG PRINT BELOW THE CODE) - READ COMMENTS AND DEBUGPRINT MESSAGES - the identical works fine, even if identity hashcodes (with some core dart non identity hashcodes as you can see from the code) may fail. So in rare occasions when you want f.e. for non extendable Function class object have totaly unique id (identity hashcode may fail as mentioned) then you need to add to the function or Function some totally unique custorm number/id which you can achieve through extesion on Function {} syntax or using Expando on objects or both.
+//Some important info down below: where this knowledge could possibly be needed? See at the bottom of the code.
 //The ultimate proving point code:
   int? anotherindentityhashcode;
   List? anotherList;
@@ -38,3 +39,16 @@
 //it should dart uses something else to distinquish the two objects like i could imagine a simple counter 
 //giving each object an always unique number that is checked f.e. when all sorts of hashcode fail
 
+
+
+//PROBABLY FIRST CONCLUSIVE CODE - READ COMMENTS AND DEBUGPRINT MESSAGES - the identical works fine, even if identity hashcodes 
+//(with some core dart non identity hashcodes as you can see from the code) may fail. So in rare occasions when you want f.e. for
+//non extendable Function class object have totaly unique id (identity hashcode may fail as mentioned) then you need to add to the function
+// or Function some totally unique custom number/id which you can achieve through extesion on Function {} syntax 
+// or using Expando on objects or both. Why the need for that? F.e. a function may contain strong references (not WeakReference references) 
+// to some objects especially in the form of "this" which when last pointer to such an object was supposed to be lost but it isn't might 
+// be still kept in the function that is kept somewhere else. If so GC for the objects of interest like the mentioned "this" 
+//may never be Garbage Collected which may cause memory hight-level-programming/secondary "leaks". Instead of keeping the reference 
+//to the function a uniuque-across-the-entire-app id could help to allow an incoming method/function to be used or rejected if the unique
+//id is not the same. It is important when you allow only a unique function instance to be called but you don't want to keep reference 
+//to it but you can keep the function id. 
