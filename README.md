@@ -1,5 +1,45 @@
 dart_tips_solutions_informal
+===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
+===================================================================================
+unique id of every object - topic + solution to the problem:
+identityHashCode method is to give you a unique number assigned to an object that is not simple type like int,String. However based on interpretation from a link:
+https://github.com/dart-lang/sdk/issues/41454
+You cannot rely on identityHashCode. It almost always will return different numbers when it should, but it may happen once upon 10000000000 times (just stupid number) that it will return the same number for two differen object when it normally wouldn't. THIS IS MY CURRENT IMPLEMENTATION AND what is important:
+After a heated discussion on dart discord this was not an obvious thing. No simple answer. Only what we have is the https://github.com/dart-lang/sdk/issues/41454
+So WHAT SOMETIMES MAY BE NEEDED IS TO IMPLEMENT YOUR OWN IDENTITY LIKE COUNTER starting from 0 incrementing each time an object you want to give an additional unique across the entire app id arrives and is of particular interest (the object). Such solutions may be more local what might assure there will be no iterations
+Also some excerpts from my questions on discord that led me to this solutions with my line of thinking:
+  Little question if i can: As the identity hash code seems to be generated somewhat randomly, can such a code like this below EVER return the same number for identityHashCode(......) call?
+  List list1 = []; debugPrint('identityHashcode: ${identityHashCode(list1)}');
+  List list2 = []; debugPrint('identityHashcode: ${identityHashCode(list2)}');
+  example return:
+  flutter: identityHashcode: 891610123
+  flutter: identityHashcode: 160067589
+  
+With respects to privacy of other users try to cite my questions, and some relevant of exerpts from other users.
+me
+Oh 🙂 We might have lost the point, haven't we? My apologies. Maybe i would try to remind my code because i may have not convey the idea best. List list1 = []; debugPrint('identityHashcode: ${identityHashCode(list1)}');
+  List list2 = []; debugPrint('identityHashcode: ${identityHashCode(list2)}');   This code produces different identity hash code each time it is run. Let's say we do flutter run with this code billions of times. Is it a big chance that the identity hashcode will be the same at least once.
+
+me
+It is logical. hyphotetically It would also imply that with 1000000000000000000000 objects (yeah, just for example) in a dart application dart would have to iterate through all identity hash codes? So better to implement own counter for lesse number of objects 10000000 it will be faster.
+
+me
+Because if you generate the identity hashcode randomly not starting from 1, then another object gets 2 then anothe 3, but it generates random numbers, then if you have 100000000000 objects you have to check if new identity hashcode is already taken in any object in among the 10000000000 objects. That checking would take lot of time possibly.
+
+me
+But if you use counter from 0 , 1, 2, 3 ... and so on you know that the next number for the next object will be 4 and you don't need to iterate to check if any random number is already taken. Sorry i finished my thoughts from my previous message.
+
+!!!!!!!!!!!!!!!!!!!
+Someone said (i respect privacy) i agree with that if it is what he meant i mean - there is something more for identical() operator than just identity hashcode - i imagined a hidden counter but dart has more controll over any variable because it allows for Finalizer class or WeakReference - there is some additional hidden information when a variable is created or pointer.
+The `identical()` function works by comparing pointers under the hood
+
+Me:
+So while it wasn't said here when we create a new object like from code i showed a new identity hashcode is created then it is checked if it is already used (100000000 objects), if it is used another is created and again 100000000 objects, and if it wasn't found this one can be used 😉
+
+
+
+neat.
 ==================================================================================
 In progress so on the top: https://dart.dev/language/concurrency#implementing-a-simple-worker-isolate says that "If you’re using Flutter, you can use Flutter’s compute function instead of Isolate.run(). On the web, the compute function falls back to running the specified function on the current event loop." When we go to https://api.flutter.dev/flutter/foundation/compute.html we read: On web platforms this will run callback on the current eventloop. On native platforms this will run callback in a separate isolate. Can we do something about it? Investigating in progress..........................
 ==================================================================================
