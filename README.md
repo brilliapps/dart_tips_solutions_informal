@@ -14,7 +14,7 @@ https://github.com/dart-lang/sdk/issues/41454
 
   So you don't have to worry that f.e. 'qwesdfawefwa' and '2werewr342342' will get the same identity hash code and while they are different they will be treated as the same. There is additional checking event if two the same lists like [] and [] but are different objects so dart team cared that something else is checked.
 
-  And remembeer you are obliged for your custom class to override non identity hashcode so hashCode getter always when you override the "==" operator
+  And remembeer you are obliged for your custom class to override non identity hashcode so hashCode getter always when you override the "==" operator so int, String, etc have this additional equality comparison so it is not possible that two differnt strings are qual.
 
   So i "inform" myself it is designed as it should be.
 !!!!!
