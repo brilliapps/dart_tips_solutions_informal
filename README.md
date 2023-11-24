@@ -5,7 +5,26 @@ Some needed often difficult to find solutions, tips, etc. focusing on dart and V
 unique id of every object - topic + solution to the problem:
 identityHashCode method is to give you a unique number assigned to an object that is not simple type like int,String. However based on interpretation from a link:
 https://github.com/dart-lang/sdk/issues/41454
-You cannot rely on identityHashCode. It almost always will return different numbers when it should, but it may happen once upon 10000000000 times (just stupid number) that it will return the same number for two differen object when it normally wouldn't. THIS IS MY CURRENT IMPLEMENTATION AND what is important:
+!!!!! new - to focus on it first:
+  This will stop after about 50000 on average (as expected not an issue):
+  final hashcodes = <int>{};while (hashcodes.add(identityHashCode([])));
+
+  But this will never stop as expected ():
+  final NOThashcodes = <List>{};while (NOThashcodes.add([]));
+
+  So you don't have to worry that f.e. 'qwesdfawefwa' and '2werewr342342' will get the same identity hash code and while they are different they will be treated as the same. There is additional checking event if two the same lists like [] and [] but are different objects so dart team cared that something else is checked.
+
+  And remembeer you are obliged for your custom class to override non identity hashcode so hashCode getter always when you override the "==" operator
+
+  So i "inform" myself it is designed as it should be.
+!!!!!
+  !!!!BUT SOME INFORMATION ON DISCORD SUGGEST THE identical operator uses identityHashcode only - really? Not some hidden unique number?
+  This i must checkout if it can happen i assume NOT!!!!
+
+  However the point is if you in rare circumstances cannot get an absolutely unique id of an object you must implement what you can do in various ways - custom variable in a class, some static property idCounter, also Type/class extension or Expando class on objects.
+!!!!!!!!
+
+You cannot rely on identityHashCode. It almost always will return different numbers when it should, but it may happen once upon about 50000 times as i checked (just stupid number) that it will return the same number for two differen object when it normally wouldn't. THIS IS MY CURRENT IMPLEMENTATION AND what is important:
 After an interesting discussion on dart discord this was not an obvious thing, otherwise it would be clear (at the end identityHashCode hascode is not expected to always return uniuqe hashcode). No simple answer. Only what we have is the https://github.com/dart-lang/sdk/issues/41454
 So WHAT SOMETIMES MAY BE NEEDED IS TO IMPLEMENT YOUR OWN IDENTITY LIKE COUNTER starting from 0 incrementing each time an object you want to give an additional unique across the entire app id arrives and is of particular interest (the object). Such solutions may be more local what might assure there will be no iterations
 Also some excerpts from my questions on discord that led me to this solutions with my line of thinking:
