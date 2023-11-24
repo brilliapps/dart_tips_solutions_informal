@@ -35,7 +35,7 @@ The ultimate proving point code:
     }
   }
 
-// So the hashcode may be equal but the identical operator works fine and says as it should that the both objects are not equal. This seems to be possible only
+// So the hashcode may be equal but the identical operator works fine and says as it should that the both objects are not equal. This seems to be possible only because there exists one more hidden id like ultimateIdentityHashCode that is checked agains when anything else fails.
 
 
 ///
