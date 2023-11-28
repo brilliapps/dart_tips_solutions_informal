@@ -3,6 +3,7 @@ dart_tips_solutions_informal
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
 unique id of every object - topic + solution to the problem:
+SEE ALSO BELOW TESTS FOCUSING ON EXPANDO AND THE GC WHICH IS RELATED TO THIS HERE.
 identityHashCode method is to give you a unique number assigned to an object that is not simple type like int,String. However based on interpretation from a link:
 https://github.com/dart-lang/sdk/issues/41454
 !!!!!
@@ -76,6 +77,145 @@ Also some excerpts from my questions on discord that led me to this solutions wi
   example return:
   flutter: identityHashcode: 891610123
   flutter: identityHashcode: 160067589
+
+------
+------
+------ SEE HERE YOU WERE SENT FROM THE BEGINNING OF THIS MAJOR PART
+----------- WITHING THIS SECTION BUT ANOTHER ASPECT
+------
+EXPANDO VS GC FULL MAIN.DART TESTING CODE BASED ON FLUTTER CREATE AND REMOVED ALL FLUTTER RUNAPP STUFF.
+import 'package:flutter/material.dart';
+import 'dart:async';
+
+//=====================================================
+class WhatPreventsOrNotGC_TestsForExpandoOrFinalizers {
+  Expando<Object> expandoTest = Expando();
+  WhatPreventsOrNotGC_TestsForExpandoOrFinalizers();
+}
+
+/// This class is to check if Expando will prevent GC
+class MethodOrFunctionAddedToExpandoObject {
+  late WeakReference<MethodOrFunctionAddedToExpandoObject>
+      thisButWeakReference = WeakReference(this);
+
+  methodWithThis() {
+    this;
+  }
+
+  methodWithNoThis() {
+    debugPrint('abc');
+  }
+
+  methodWithNoThisButWeakReference() {
+    var thisButWeakReference2 = this.thisButWeakReference;
+    // returns precisely local variable with no reference to this;
+    return thisButWeakReference2;
+  }
+
+  Function clauseGetterWithThis() {
+    return () {
+      this;
+    };
+  }
+
+  Function clauseGetterWithNoThis() {
+    return () {
+      debugPrint('abc2');
+    };
+  }
+
+  Function clauseGetterWithThisButWeakReference() {
+    return () {
+      var thisButWeakReference2 = this.thisButWeakReference;
+      // returns precisely local variable with no reference to this;
+      return thisButWeakReference2;
+    };
+  }
+}
+
+/// For unknown reason var anObjectThatWillEndureVeryLong = Object(); caused variable not to be visible when it should be. So the class so that it can be traced.
+class SimpleObject extends Object {
+  SimpleObject();
+}
+
+void main() {
+  // THE BOTTOM LINE WITH WARNING:
+  // THE OBJECTS RELATED TO EXPANDO CLASS ARE GCED NICE EXPANDO[ABC]=CDE; - ABC AND CDE ARE GC-ED NICE;
+  // BUT, IF EXPANDO OBJECT IS A PROPERTY OF ANOTHER OBJECT LIKE OBJECT1.expandoproperty THEN OBJECT1 (100MB RAM F.E.) MAY NEVER BE GCED.
+  // SO KEEP EXPANDO OBJECT AWAY FROM IMPORTANT CLASSES MAKE THEM F.E. A STATIC PROPERTY OF ANOTHER SIMPLE CLASS USED ONLY FOR THIS PURPOSE.
+  // WARNING! TO REMIND YOU, AN OBJECT WITH ITS METHOD JUST BEING EXECUTED ALSO IN ASYNC MODE, ALSO WHEN SOME "AWAIT" IS LASTING FOR MUCH LONGER, SUCH OBJECT WILL NEVER BE GC-ED EVEN WITH NO REFERENCE TO "THIS". IT JUST WON'T BE ALLOWED TO BE GCED UNTIL THE METHOD FINISHES.
+
+  // GC tests for educative understanding:
+  var abc = WhatPreventsOrNotGC_TestsForExpandoOrFinalizers();
+  // The Timer is to only ensure that abc cannot be GC-ed for one minute;
+  Timer(Duration(milliseconds: 60000), () {
+    // Confirmed: just refering to abc (there was no more code here at the beginning); like this prevents the gc for Duration(milliseconds: ??????????) time;
+    abc;
+  });
+  // ----------------------------------------
+  // As mentioned in the SimpleObject (extends Object) description - just Object was not displayed in the Flutter devTools but it works the same for Object and SimpleObject
+  // So first there are two SimpleObject instances then after GC only one is left because aVeryShorLivedObject is Garbage Collected as expected
+  var anObjectThatWillEndureVeryLong = SimpleObject();
+  // The Timer is to only ensure that anObjectThatWillEndureVeryLong cannot be GC-ed for the very long Duration time;
+  Timer(Duration(milliseconds: 5000000), () {
+    // Confirmed: just refering to anObjectThatWillEndureVeryLong (there was no more code here at the beginning); like this prevents the gc for Duration(milliseconds: ??????????) time;
+    anObjectThatWillEndureVeryLong;
+  });
+
+  // See anObjectThatWillEndureVeryLong desc. This object will should normally be ready for removing by the GC just the main method finished. Ready for removing is not removing itself. The GC may remove it after much much time.
+  var aVeryShorLivedObject = SimpleObject();
+
+  // Can the MethodOrFunctionAddedToExpandoObject() be GC-ed before the above Duration elapses?
+  // Info all the results below had their GC triggered artificially to see the results:
+  // --------------------------------------------------------
+  // To bear in mind: As mentioned in the SimpleObject (extends Object) description - just Object was not displayed in the Flutter devTools but it works the same for Object and SimpleObject
+  // --------------------------------------------------------
+  // TESTED: RESULT: The below MethodOrFunctionAddedToExpandoObject() instance will be GC-ed after long time because the last reference to anObjectThatWillEndureVeryLong is maintained thanks to the earlier [Timer]()
+  // pointer abc/whatprevent:1, ponterless methodorfunc:1 GC < 1 min the same; GC > 1 min the same, anObjectThatWillEndureVeryLong in an Expando[] keeps both objects non GCable.
+  // Another conlusion is that as long as there is pointer to anObjectThatWillEndureVeryLong the expando lives on even though abc = null or last pointer to it was lost. So as the next example will show we need to remove pointer to anObjectThatWillEndureVeryLong also for expando to be garbage collected too.
+  //abc.expandoTest[anObjectThatWillEndureVeryLong] =
+  //    MethodOrFunctionAddedToExpandoObject().methodWithThis;
+  // --------------------------------------------------------
+  // TESTED: RESULT: The below MethodOrFunctionAddedToExpandoObject() instance will be GC-ed successfuly immediately after main() method body execution finishes (Ofcourse if you trigger the GC artificially immediately or you wait much longer)
+  // pointer abc/whatprevent:1, ponterless methodorfunc:1 GC < 1 min abc/whatprevent:1, ponterless methodorfunc:!!!0!!!; GC > 1 min the same, aVeryShorLivedObject in an Expando[] - pointerless MethodOrFunctionAddedToExpandoObject() GCed as expected
+  // WARNING ABOUT GC! : But! you would expect abc to be GCed too automatically but no!!! It stays and is unremovable at all despite how much time elapses and how many GC is triggered artificially.
+  // DART FEATURE? BUT NOT CAUSING REAL HARM AND MEMORY LEAKS BECAUSE THE IMPORTANT VARIABLES LIKE THE aVeryShorLivedObject AND "pointerless" MethodOrFunctionAddedToExpandoObject() ARE garbabge COLLECTED AS EXPECTED THE PROBLEM IS THAT WHEN THERE IS THE TIMER ONLY OR THE EXPANDO abc.expandoTest[aVeryShorLivedObject] = ... THEN abc IS GCABLE. Again not a problem in the entire program.
+  // IT MIGHT BE THAT IT WILL BE GC-ED BUT IT BEHAVES NOT AS EXPECTED SO YOU TREAT IS LIKE SORT-OF-AN-UNEXPECTED DART STRANGE BEHAVIOUR.
+  // The problem is that you must remember that such a situation might ever happen and monitor if objects are GCed correctly.
+  // BUT SO WARNING: YOU CANNOT KEEP EXPANDO CLASS OBJECT AS PROPERTY IN ANOTHER 100 MB CLASS IF YOU WANT THE CLASS' OBJECT TO BE GC-ED
+  //abc.expandoTest[aVeryShorLivedObject] =
+  //    MethodOrFunctionAddedToExpandoObject().methodWithThis;
+  // --------------------------------------------------------
+  // KNOWING ALL THIS NO NEED TO TEST NEITHER NON-THIS NOR WEAK-REFERENCED-THIS METHODS BECAUSE "THIS" METHOD IS THE WORST CASE SCENARIO
+  // BUT WE NEED TO LOOK AT THE ANONYMOUS FUNCTIONS, HOW WILL THEY FARE?
+  // --------------------------------------------------------
+  // TESTED: RESULT: The below MethodOrFunctionAddedToExpandoObject() instance will be GC-ed after long time because the last reference to anObjectThatWillEndureVeryLong is maintained thanks to the earlier [Timer]()
+  // FIXME: Start all the tests again see what objects mean what, what exists, what dissapear and when
+  // AS EXPECTED: THE SAME AS non-anonymous .methodWithThis method pointer abc/whatprevent:1, ponterless methodorfunc:1 GC < 1 min the same; GC > 1 min the same, anObjectThatWillEndureVeryLong in an Expando[] keeps both objects non GCable.
+  //abc.expandoTest[anObjectThatWillEndureVeryLong] =
+  //    MethodOrFunctionAddedToExpandoObject().clauseGetterWithThis();
+  // --------------------------------------------------------
+  // TESTED: RESULT: The below MethodOrFunctionAddedToExpandoObject() instance will be GC-ed successfuly immediately after main() method body execution finishes (Ofcourse if you trigger the GC artificially immediately or you wait much longer)
+  // pointer abc/whatprevent:1, ponterless methodorfunc:1 GC < 1 min abc/whatprevent:1, ponterless methodorfunc:!!!0!!!; GC > 1 min the same, aVeryShorLivedObject in an Expando[] - pointerless MethodOrFunctionAddedToExpandoObject() GCed as expected
+  abc.expandoTest[aVeryShorLivedObject] =
+      MethodOrFunctionAddedToExpandoObject().clauseGetterWithThis();
+  // --------------------------------------------------------
+
+  //runApp(const MyApp());
+  //
+}
+
+
+
+
+
+------
+------
+------
+------
+------
+
+
   
 With respects to privacy of other users try to cite my questions, and some relevant of exerpts from other users.
 me
