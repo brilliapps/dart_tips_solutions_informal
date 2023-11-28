@@ -84,6 +84,9 @@ Also some excerpts from my questions on discord that led me to this solutions wi
 ----------- WITHING THIS SECTION BUT ANOTHER ASPECT
 ------
 EXPANDO VS GC FULL MAIN.DART TESTING CODE BASED ON FLUTTER CREATE AND REMOVED ALL FLUTTER RUNAPP STUFF.
+
+!!! IT IS IMPORTANT YOU READ THE MANY COMMENTS IN THE ORDER AS THEY OCCUR ESPECIALLY IN THE MAIN FUNCTION BODY AND ANAYSE THE CODE.
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -144,13 +147,20 @@ void main() {
   // BUT, IF EXPANDO OBJECT IS A PROPERTY OF ANOTHER OBJECT LIKE OBJECT1.expandoproperty THEN OBJECT1 (100MB RAM F.E.) MAY NEVER BE GCED.
   // SO KEEP EXPANDO OBJECT AWAY FROM IMPORTANT CLASSES MAKE THEM F.E. A STATIC PROPERTY OF ANOTHER SIMPLE CLASS USED ONLY FOR THIS PURPOSE.
   // WARNING! TO REMIND YOU, AN OBJECT WITH ITS METHOD JUST BEING EXECUTED ALSO IN ASYNC MODE, ALSO WHEN SOME "AWAIT" IS LASTING FOR MUCH LONGER, SUCH OBJECT WILL NEVER BE GC-ED EVEN WITH NO REFERENCE TO "THIS". IT JUST WON'T BE ALLOWED TO BE GCED UNTIL THE METHOD FINISHES.
-
+  // WARNING! for now IT can be assumed that Timer doesn't react to GC triggered artificially and a finished timer object may not be collected for very long and didn't see such a gcing at all. In simple quick situations it may gc variables kept in it but when code is more complicated it doesn't.
+  // Edit: SOLUTION!!! For example prepare a local-scope nullable variable to the object you want it to be collected like from an example below "SomeType? cde = abc" - all before the Timer() is created and use the cde, and if it is one-time Timer set cde=null the end of the Timer called function body
+  // Soluiton: Also for Timer.periodic correspondingly do the cde = null (or abc if you decided on abc) when you are going to cancel the Timer or even it is never cancelled Timer do cde = null when it is no longer needed.
+  //
+  //
   // GC tests for educative understanding:
   var abc = WhatPreventsOrNotGC_TestsForExpandoOrFinalizers();
   // The Timer is to only ensure that abc cannot be GC-ed for one minute;
+  WhatPreventsOrNotGC_TestsForExpandoOrFinalizers? cde = abc;
   Timer(Duration(milliseconds: 60000), () {
     // Confirmed: just refering to abc (there was no more code here at the beginning); like this prevents the gc for Duration(milliseconds: ??????????) time;
-    abc;
+    cde; // this dummy code ensures that pointer to cde/abc object persist in the global app scope at least for 60000 ms.
+    // Ofcourse you may set abc=null and not use cde at all but only if you know the "abc" pointer won't be use elsewhere after the time 60000ms time elapses, which when abc used as local variable may happen when there is "await" construction that finishes later than the 60000 and then the abc is used again but it is null but object was expected. So this is just example of the recommended solution.
+    cde = null;
   });
   // ----------------------------------------
   // As mentioned in the SimpleObject (extends Object) description - just Object was not displayed in the Flutter devTools but it works the same for Object and SimpleObject
@@ -163,7 +173,7 @@ void main() {
   });
 
   // See anObjectThatWillEndureVeryLong desc. This object will should normally be ready for removing by the GC just the main method finished. Ready for removing is not removing itself. The GC may remove it after much much time.
-  var aVeryShorLivedObject = SimpleObject();
+  SimpleObject? aVeryShorLivedObject = SimpleObject();
 
   // Can the MethodOrFunctionAddedToExpandoObject() be GC-ed before the above Duration elapses?
   // Info all the results below had their GC triggered artificially to see the results:
@@ -179,32 +189,46 @@ void main() {
   // TESTED: RESULT: The below MethodOrFunctionAddedToExpandoObject() instance will be GC-ed successfuly immediately after main() method body execution finishes (Ofcourse if you trigger the GC artificially immediately or you wait much longer)
   // pointer abc/whatprevent:1, ponterless methodorfunc:1 GC < 1 min abc/whatprevent:1, ponterless methodorfunc:!!!0!!!; GC > 1 min the same, aVeryShorLivedObject in an Expando[] - pointerless MethodOrFunctionAddedToExpandoObject() GCed as expected
   // WARNING ABOUT GC! : But! you would expect abc to be GCed too automatically but no!!! It stays and is unremovable at all despite how much time elapses and how many GC is triggered artificially.
-  // DART FEATURE? BUT NOT CAUSING REAL HARM AND MEMORY LEAKS BECAUSE THE IMPORTANT VARIABLES LIKE THE aVeryShorLivedObject AND "pointerless" MethodOrFunctionAddedToExpandoObject() ARE garbabge COLLECTED AS EXPECTED THE PROBLEM IS THAT WHEN THERE IS THE TIMER ONLY OR THE EXPANDO abc.expandoTest[aVeryShorLivedObject] = ... THEN abc IS GCABLE. Again not a problem in the entire program.
-  // IT MIGHT BE THAT IT WILL BE GC-ED BUT IT BEHAVES NOT AS EXPECTED SO YOU TREAT IS LIKE SORT-OF-AN-UNEXPECTED DART STRANGE BEHAVIOUR.
+  // DART FEATURE? Let's focus here on this -------------------------
+  // I just tried to think about it: it might be that the expando objects are quite core to the system so whatever is related to them might be treated more farsightedly safely.
+  // I used such code it seems that even one-call Timers are GCed differently and not reacting to GC button;
+  // the effect is that aVeryShorLivedObject should be GCed but is not;
+  //Timer(Duration(seconds: 30), () {
+  //  abc.expandoTest[aVeryShorLivedObject] = null;
+  //});
+  //
+  //But if add aVeryShorLivedObject = null; like below then it is collected after 30 seconds when GC is triggered:
+  //   Timer(Duration(seconds: 30), () {
+  //  abc.expandoTest[aVeryShorLivedObject!] = null;
+  //  aVeryShorLivedObject = null;
+  //});
+  //CONCLUSION - timer keeps the reference, an not always but within some rules (abc has had it's defined expando not used - "abc" collected)
+  //So it for now can be assumed that Timer is collected and doesn't react to GC triggered artificially.
+  //
+  // BUT NOT CAUSING REAL HARM AND MEMORY LEAKS BECAUSE THE IMPORTANT VARIABLES LIKE THE aVeryShorLivedObject AND "pointerless" MethodOrFunctionAddedToExpandoObject() ARE garbabge COLLECTED AS EXPECTED THE PROBLEM IS THAT WHEN THERE IS THE TIMER ONLY OR THE EXPANDO abc.expandoTest[aVeryShorLivedObject] = ... THEN abc IS GCABLE. Again not a problem in the entire program.
+  // IT MIGHT BE THAT IT WILL BE GC-ED BUT IT BEHAVES NOT AS EXPECTED SO YOU TREAT IS LIKE SORT-OF-AN-UNEXPECTED DART STRANGE BEHAVIOUR. SOLUTIONS ARE GIVEN AT THE BEGINNING - USE ONLY LOCAL VARIABLES AND SET THEM TO NULL ALWAYS AT THE BEGNINNING OF FUNCITON THE TIMER CALLS OR SET THEM TO NULL WHEN PERIODIC TIMER is cancelled timer.cancel();
   // The problem is that you must remember that such a situation might ever happen and monitor if objects are GCed correctly.
   // BUT SO WARNING: YOU CANNOT KEEP EXPANDO CLASS OBJECT AS PROPERTY IN ANOTHER 100 MB CLASS IF YOU WANT THE CLASS' OBJECT TO BE GC-ED
-  //abc.expandoTest[aVeryShorLivedObject] =
-  //    MethodOrFunctionAddedToExpandoObject().methodWithThis;
+  abc.expandoTest[aVeryShorLivedObject] =
+      MethodOrFunctionAddedToExpandoObject().methodWithThis;
   // --------------------------------------------------------
   // KNOWING ALL THIS NO NEED TO TEST NEITHER NON-THIS NOR WEAK-REFERENCED-THIS METHODS BECAUSE "THIS" METHOD IS THE WORST CASE SCENARIO
   // BUT WE NEED TO LOOK AT THE ANONYMOUS FUNCTIONS, HOW WILL THEY FARE?
   // --------------------------------------------------------
   // TESTED: RESULT: The below MethodOrFunctionAddedToExpandoObject() instance will be GC-ed after long time because the last reference to anObjectThatWillEndureVeryLong is maintained thanks to the earlier [Timer]()
-  // FIXME: Start all the tests again see what objects mean what, what exists, what dissapear and when
   // AS EXPECTED: THE SAME AS non-anonymous .methodWithThis method pointer abc/whatprevent:1, ponterless methodorfunc:1 GC < 1 min the same; GC > 1 min the same, anObjectThatWillEndureVeryLong in an Expando[] keeps both objects non GCable.
   //abc.expandoTest[anObjectThatWillEndureVeryLong] =
   //    MethodOrFunctionAddedToExpandoObject().clauseGetterWithThis();
   // --------------------------------------------------------
   // TESTED: RESULT: The below MethodOrFunctionAddedToExpandoObject() instance will be GC-ed successfuly immediately after main() method body execution finishes (Ofcourse if you trigger the GC artificially immediately or you wait much longer)
   // pointer abc/whatprevent:1, ponterless methodorfunc:1 GC < 1 min abc/whatprevent:1, ponterless methodorfunc:!!!0!!!; GC > 1 min the same, aVeryShorLivedObject in an Expando[] - pointerless MethodOrFunctionAddedToExpandoObject() GCed as expected
-  abc.expandoTest[aVeryShorLivedObject] =
-      MethodOrFunctionAddedToExpandoObject().clauseGetterWithThis();
+  //abc.expandoTest[aVeryShorLivedObject] =
+  //    MethodOrFunctionAddedToExpandoObject().clauseGetterWithThis();
   // --------------------------------------------------------
 
   //runApp(const MyApp());
   //
 }
-
 
 
 
