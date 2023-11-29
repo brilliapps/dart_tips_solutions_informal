@@ -145,7 +145,6 @@ class SimpleObject extends Object {
 void main() {
   // THE BOTTOM LINE WITH WARNING:
   // First, TIP!: WeakReference and Expando is fine as to the GC, really! For one Object a WeakReference is better. For many elements, Expando may be a bit better, read all, Set<WeakReference> - you need to check cyclically for elements having .targer == null and remove them from the list if so. In case of expando this will be removed automatically, but you need to assign an additional value like the least would be: someexpando[importantobject]=true; - that is not a big deal.
-
   // THE OBJECTS RELATED TO EXPANDO (THERE IS ONE ENOUGH TEST WITH WEAKREFERENCE TELLING ALL - WORKS THE SAME AS TO THE GC AS EXPANDO) CLASS ARE GCED NICE EXPANDO[ABC]=CDE; - ABC AND CDE ARE GC-ED NICE;
   // BUT, IF EXPANDO OBJECT IS A PROPERTY OF ANOTHER OBJECT LIKE OBJECT1.expandoproperty THEN OBJECT1 (100MB RAM F.E.) MAY NEVER BE GCED.
   // SO KEEP EXPANDO OBJECT AWAY FROM IMPORTANT CLASSES MAKE THEM F.E. A STATIC PROPERTY OF ANOTHER SIMPLE CLASS USED ONLY FOR THIS PURPOSE.
