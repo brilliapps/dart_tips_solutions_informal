@@ -93,6 +93,7 @@ import 'dart:async';
 //=====================================================
 class WhatPreventsOrNotGC_TestsForExpandoOrFinalizers {
   Expando<Object> expandoTest = Expando();
+  late final WeakReference<Function> weakReferenceTest;
   WhatPreventsOrNotGC_TestsForExpandoOrFinalizers();
 }
 
@@ -143,7 +144,7 @@ class SimpleObject extends Object {
 
 void main() {
   // THE BOTTOM LINE WITH WARNING:
-  // THE OBJECTS RELATED TO EXPANDO CLASS ARE GCED NICE EXPANDO[ABC]=CDE; - ABC AND CDE ARE GC-ED NICE;
+  // THE OBJECTS RELATED TO EXPANDO (THERE IS ONE ENOUGH TEST WITH WEAKREFERENCE TELLING ALL - WORKS THE SAME AS TO THE GC AS EXPANDO) CLASS ARE GCED NICE EXPANDO[ABC]=CDE; - ABC AND CDE ARE GC-ED NICE;
   // BUT, IF EXPANDO OBJECT IS A PROPERTY OF ANOTHER OBJECT LIKE OBJECT1.expandoproperty THEN OBJECT1 (100MB RAM F.E.) MAY NEVER BE GCED.
   // SO KEEP EXPANDO OBJECT AWAY FROM IMPORTANT CLASSES MAKE THEM F.E. A STATIC PROPERTY OF ANOTHER SIMPLE CLASS USED ONLY FOR THIS PURPOSE.
   // WARNING! TO REMIND YOU, AN OBJECT WITH ITS METHOD JUST BEING EXECUTED ALSO IN ASYNC MODE, ALSO WHEN SOME "AWAIT" IS LASTING FOR MUCH LONGER, SUCH OBJECT WILL NEVER BE GC-ED EVEN WITH NO REFERENCE TO "THIS". IT JUST WON'T BE ALLOWED TO BE GCED UNTIL THE METHOD FINISHES.
@@ -188,30 +189,15 @@ void main() {
   // --------------------------------------------------------
   // TESTED: RESULT: The below MethodOrFunctionAddedToExpandoObject() instance will be GC-ed successfuly immediately after main() method body execution finishes (Ofcourse if you trigger the GC artificially immediately or you wait much longer)
   // pointer abc/whatprevent:1, ponterless methodorfunc:1 GC < 1 min abc/whatprevent:1, ponterless methodorfunc:!!!0!!!; GC > 1 min the same, aVeryShorLivedObject in an Expando[] - pointerless MethodOrFunctionAddedToExpandoObject() GCed as expected
-  // WARNING ABOUT GC! : But! you would expect abc to be GCed too automatically but no!!! It stays and is unremovable at all despite how much time elapses and how many GC is triggered artificially.
-  // DART FEATURE? Let's focus here on this -------------------------
-  // I just tried to think about it: it might be that the expando objects are quite core to the system so whatever is related to them might be treated more farsightedly safely.
-  // I used such code it seems that even one-call Timers are GCed differently and not reacting to GC button;
-  // the effect is that aVeryShorLivedObject should be GCed but is not;
-  //Timer(Duration(seconds: 30), () {
-  //  abc.expandoTest[aVeryShorLivedObject] = null;
-  //});
-  //
-  //But if add aVeryShorLivedObject = null; like below then it is collected after 30 seconds when GC is triggered:
-  //   Timer(Duration(seconds: 30), () {
-  //  abc.expandoTest[aVeryShorLivedObject!] = null;
-  //  aVeryShorLivedObject = null;
-  //});
-  //CONCLUSION - timer keeps the reference, an not always but within some rules (abc has had it's defined expando not used - "abc" collected)
-  //So it for now can be assumed that Timer is collected and doesn't react to GC triggered artificially.
-  //
-  // BUT NOT CAUSING REAL HARM AND MEMORY LEAKS BECAUSE THE IMPORTANT VARIABLES LIKE THE aVeryShorLivedObject AND "pointerless" MethodOrFunctionAddedToExpandoObject() ARE garbabge COLLECTED AS EXPECTED THE PROBLEM IS THAT WHEN THERE IS THE TIMER ONLY OR THE EXPANDO abc.expandoTest[aVeryShorLivedObject] = ... THEN abc IS GCABLE. Again not a problem in the entire program.
-  // IT MIGHT BE THAT IT WILL BE GC-ED BUT IT BEHAVES NOT AS EXPECTED SO YOU TREAT IS LIKE SORT-OF-AN-UNEXPECTED DART STRANGE BEHAVIOUR. SOLUTIONS ARE GIVEN AT THE BEGINNING - USE ONLY LOCAL VARIABLES AND SET THEM TO NULL ALWAYS AT THE BEGNINNING OF FUNCITON THE TIMER CALLS OR SET THEM TO NULL WHEN PERIODIC TIMER is cancelled timer.cancel();
-  // The problem is that you must remember that such a situation might ever happen and monitor if objects are GCed correctly.
-  // BUT SO WARNING: YOU CANNOT KEEP EXPANDO CLASS OBJECT AS PROPERTY IN ANOTHER 100 MB CLASS IF YOU WANT THE CLASS' OBJECT TO BE GC-ED
-  abc.expandoTest[aVeryShorLivedObject] =
-      MethodOrFunctionAddedToExpandoObject().methodWithThis;
+  //abc.expandoTest[aVeryShorLivedObject] =
+  //    MethodOrFunctionAddedToExpandoObject().methodWithThis;
+  // Quick equivalent test for a [WeakReference] - the same.
+  // WeakReference below the same as expando - The MethodOrFunctionAddedToExpandoObject() dissapears after first GC trigger no need to test other covarieties.
+  //abc.weakReferenceTest =
+  //    WeakReference(MethodOrFunctionAddedToExpandoObject().methodWithThis);
+
   // --------------------------------------------------------
+  // AS TO EXPANDO (THE SAME RULE FOR WEAKREFERENCE INSTANCE)
   // KNOWING ALL THIS NO NEED TO TEST NEITHER NON-THIS NOR WEAK-REFERENCED-THIS METHODS BECAUSE "THIS" METHOD IS THE WORST CASE SCENARIO
   // BUT WE NEED TO LOOK AT THE ANONYMOUS FUNCTIONS, HOW WILL THEY FARE?
   // --------------------------------------------------------
@@ -229,9 +215,6 @@ void main() {
   //runApp(const MyApp());
   //
 }
-
-
-
 
 ------
 ------
