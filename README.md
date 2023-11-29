@@ -144,6 +144,8 @@ class SimpleObject extends Object {
 
 void main() {
   // THE BOTTOM LINE WITH WARNING:
+  // First, TIP!: WeakReference and Expando is fine as to the GC, really! For one Object a WeakReference is better. For many elements, Expando may be a bit better, read all, Set<WeakReference> - you need to check cyclically for elements having .targer == null and remove them from the list if so. In case of expando this will be removed automatically, but you need to assign an additional value like the least would be: someexpando[importantobject]=true; - that is not a big deal.
+
   // THE OBJECTS RELATED TO EXPANDO (THERE IS ONE ENOUGH TEST WITH WEAKREFERENCE TELLING ALL - WORKS THE SAME AS TO THE GC AS EXPANDO) CLASS ARE GCED NICE EXPANDO[ABC]=CDE; - ABC AND CDE ARE GC-ED NICE;
   // BUT, IF EXPANDO OBJECT IS A PROPERTY OF ANOTHER OBJECT LIKE OBJECT1.expandoproperty THEN OBJECT1 (100MB RAM F.E.) MAY NEVER BE GCED.
   // SO KEEP EXPANDO OBJECT AWAY FROM IMPORTANT CLASSES MAKE THEM F.E. A STATIC PROPERTY OF ANOTHER SIMPLE CLASS USED ONLY FOR THIS PURPOSE.
@@ -151,6 +153,7 @@ void main() {
   // WARNING! for now IT can be assumed that Timer doesn't react to GC triggered artificially and a finished timer object may not be collected for very long and didn't see such a gcing at all. In simple quick situations it may gc variables kept in it but when code is more complicated it doesn't.
   // Edit: SOLUTION!!! For example prepare a local-scope nullable variable to the object you want it to be collected like from an example below "SomeType? cde = abc" - all before the Timer() is created and use the cde, and if it is one-time Timer set cde=null the end of the Timer called function body
   // Soluiton: Also for Timer.periodic correspondingly do the cde = null (or abc if you decided on abc) when you are going to cancel the Timer or even it is never cancelled Timer do cde = null when it is no longer needed.
+  //
   //
   //
   // GC tests for educative understanding:
