@@ -2,7 +2,20 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
-unique id of every object - topic + solution to the problem:
+===================================================================================
+Function param in class Constructor or method/function definition. Take note to such details like you can pass a function or null when f.e. Function()? has the "?" question mark.
+Based on attemted Extending Future class - discoverd feature - a param can be a function with returned type - there is two syntaxes: accepted and allowed but not recommended syntax
+which can be seen from this linter rule description https://dart.dev/tools/linter-rules/use_function_type_syntax_for_parameters
+Here is the code, at the stage it was not tested but with no errors.
+class ConditionFutureWithSynchronousInfo<T> extends Future<T> {
+ConditionFutureWithSynchronousInfo(super.computation);
+
+//educationally would-worked another syntax ConditionFutureWithSynchronousInfo.delayed(duration, [FutureOr<T> computation()?]) : super.delayed(duration, computation);
+ConditionFutureWithSynchronousInfo.delayed(duration, [FutureOr<T> Function()? computation]) : super.delayed(duration, computation);
+.......
+}
+===================================================================================
+unique id [finally solved with no id but WeakReference or possible other options?] of every object - topic + solution to the problem:
 SEE ALSO BELOW TESTS FOCUSING ON EXPANDO AND THE GC WHICH IS RELATED TO THIS HERE.
 identityHashCode method is to give you a unique number assigned to an object that is not simple type like int,String. However based on interpretation from a link:
 https://github.com/dart-lang/sdk/issues/41454
