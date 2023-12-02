@@ -17,6 +17,7 @@ You could also replace it with something looking nicer:
 typedef SomeFancyFunctionType<T> = FutureOr<T> Function()?;
 and then in the constructor of our interest:
 ConditionFutureWithSynchronousInfo.delayed(duration, [SomeFancyFunctionType<T> computation]) : super.delayed(duration, computation);
+/// Btw, having problems with extending Future class if your really want to use it asynchronously (event lopp) you can use some workarounds like (not tested) await Future(() => ConditionSynchronousFutureWithInfo(() {...})); or more custom stuff like scheduleMicrotask() {} or a Timer(); using the main constructor for example. Also there is Completer.sync constructor (now SynchronousCompleter) but not needed here you can't also extend the class with no trouble.
 ===================================================================================
 unique id [finally solved with no id but WeakReference or possible other options?] of every object - topic + solution to the problem:
 SEE ALSO BELOW TESTS FOCUSING ON EXPANDO AND THE GC WHICH IS RELATED TO THIS HERE.
