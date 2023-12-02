@@ -6,7 +6,7 @@ Some needed often difficult to find solutions, tips, etc. focusing on dart and V
 Educationally more than needed. Function param in class Constructor or method/function definition. Take note to such details like you can pass a function or null when f.e. Function()? has the "?" question mark.
 Based on attemted Extending Future class - discoverd feature - a param can be a function with returned type - there is two syntaxes: accepted and allowed but not recommended syntax
 which can be seen from this linter rule description https://dart.dev/tools/linter-rules/use_function_type_syntax_for_parameters (fun fact in the official docs old syntax was used at the time of writing this stuff here.)
-Here is the code, at the stage it was not tested but with no errors.
+Here is the code, at the stage it was not tested but with no errors (edit: finally too much to implement and too difficult so class ConditionSynchronousFutureWithInfo<T> extends SynchronousFuture<T> was enough to do):
 class ConditionFutureWithSynchronousInfo<T> extends Future<T> {
 ConditionFutureWithSynchronousInfo(super.computation);
 //educationally would-worked another syntax ConditionFutureWithSynchronousInfo.delayed(duration, [FutureOr<T> computation()?]) : super.delayed(duration, computation);
