@@ -2,6 +2,7 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+First some quick novelty there is from 3.3.0 extension type, asked on dart discord official, but if you add implements int it is going to sort of copy the features from int like operator "<", "==", if you not implement you need to write your code for the operators.
 ===================================================================================
 Educationally more than needed. Function param in class Constructor or method/function definition. Take note to such details like you can pass a function or null when f.e. Function()? has the "?" question mark.
 Based on attemted Extending Future class - discoverd feature - a param can be a function with returned type - there is two syntaxes: accepted and allowed but not recommended syntax
