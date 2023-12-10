@@ -383,3 +383,10 @@ So a bit compatible qoutation from https://www.geeksforgeeks.org/flutter-dispose
 "Situations, where you need to call your dispose() method, could be turning off the notifications, unsubscribing, shutting off the animations, etc. "
 
 ====================================================================================
+Isolates, compute, some gem read from official dart discord names/nicks removed because of possible privacy issues: 
+Someone1 : Are isolates condidered expensive to create and delete? If I periodically receive an external command to perform a particular task (say, a couple of times a minute), would it be out of the ordinary to spin up an isolate for each task?
+Someone2
+If you use Isolate.run or Isolate.spawn, it should be way more than fine. Especially if only a few times a minute. The isolates spawned using this method are spawned in the same isolate group, so they share the same code as the spawning isolate, reducing their start up cost and time. 
+
+Apart from that, compute function runs in isolate on native platforms, but on the web on the event loop. It may take some time the isolates will be brought to Wasm. Also some not carefully reviewed by me sources imply Wasm is not yet isolates/threads ready, yet some more official table of features implied the oposite to me - i am not an wasm insider.
+i
