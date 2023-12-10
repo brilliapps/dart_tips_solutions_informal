@@ -3,6 +3,29 @@ dart_tips_solutions_informal
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
 First some quick novelty there is from 3.3.0 extension type, asked on dart discord official, but if you add implements int it is going to sort of copy the features from int like operator "<", "==", if you not implement you need to write your code for the operators.
+[Edit:][start]
+This issue tells it all.
+https://github.com/dart-lang/sdk/issues/54293
+Summary it tells that after some fixes, There may be implemented in some distant future that `b = b + a` or `Int b = 10` will be possible (they may be not quick to do that now in December 2023). At least one known dart dev is aware of the would-be feature and stuff involved:
+```dart
+extension type Int(int i) implements int {
+  Int operator +(int other) {
+    return Int(i + other);
+  }
+}
+
+void main() {
+  int a = 2;
+  Int b = Int(8); // coulndn't Int b = 8? and silently cast as Int?
+
+  b = b + a; // wrong, but Int + operator overriden returns Int
+  b = a + b; // wrong, because a is int, but couldn't it be silently cast to Int? [Edit: a dev called it type coercion - when type from context is clear]
+  a = a + b; // good as expected.
+  print(b + a); // ok, somewhere toString is called for sure.
+}
+```
+
+[Edit:][stop]
 Some updates from discord - for privacy resons no mentioning nicknames, etc.:
 extension type IntWrapper(int i) {}
 foo() => IntWrapper(1).i + 2;
