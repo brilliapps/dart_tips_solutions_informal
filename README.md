@@ -2,6 +2,14 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+There is a class ConditionIsolateNoParallelFunctionCalls<T> (or the name has change since :) ). 
+https://github.com/brilliapps/Condition/blob/main/lib/condition_data_managging.dart
+While a Pool class from the pool package was discovered by me after i started work on the class i decided to implement it anyway so i write about the Pool class for you to rather choose more dart team way. 
+so when as an argument of a "function nr 1" you pass an anonymous function "object" called "function nr 2" that the ...2 was earlier assigned to a variable or property, then you can preserve the identity of the object when it is used in the "function nr 1", and if you have in the "function nr 1" another pointer to the "function nr 2" from some different source f.e. Stream sent an event with the function nr 2. So when you compare both objects they are identical (identical is 100% unfailing) and indentityHashCode function shows the same value (like 99.9% cases one per 50000 random object comparison may fail).
+But if you use as function nr 2 a regular method defined like this class abc {regularmethod() {}} and pass to function nr 1 directly like this functionnr1(abcinstance.regularmethod) then it will get another identity inside "function nr 1". If you compare this abcinstance.regularmethod with a pointer to the method from another source like Stream, or whatever, the two objects won't be identical, wont be the same. The identity() operator will return false and identityHashCode too.
+The topic of identity comparison and 100% unfailingless of it is discussed below in this file somewhere because of GC or someting else.
+
+===================================================================================
 First some quick novelty there is from 3.3.0 extension type, asked on dart discord official, but if you add implements int it is going to sort of copy the features from int like operator "<", "==", if you not implement you need to write your code for the operators.
 [Edit:][start]
 This issue tells it all.
