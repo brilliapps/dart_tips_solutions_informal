@@ -2,6 +2,18 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+VsCode: I wanted to replace all debugPrint(); to debugPrint(SomeClass('string hello')); after a couple of improvements could be able to do a regex for replacing that works in about a little bit more than 99,8% cases - one must have corrected manually. So some conclusions:
+In VsCode something like this worked for replace (Regex option on), as Vscode is written in React as far as i remember so js syntax should work well and it did suprisingly well and intuitively:
+from:
+debugPrint\(((.|[\s\t\n\r])*?)(?<!\()\);
+to:
+debugPrint('${ConditionDebugPrint($1)}');
+was able to correctly replace f.e exactly this with \n \t, etc:
+    debugPrint(
+        rrrr); 
+    debugPrint('${ConditionDebugPrint(
+        rrrr)}'); 
+=====================================================================================
 There is a class ConditionIsolateNoParallelFunctionCalls<T> (or the name has change since :) ). 
 https://github.com/brilliapps/Condition/blob/main/lib/condition_data_managging.dart
 While a Pool class from the pool package was discovered by me after i started work on the class i decided to implement it anyway so i write about the Pool class for you to rather choose more dart team way. 
