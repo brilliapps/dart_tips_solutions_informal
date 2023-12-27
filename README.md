@@ -2,7 +2,7 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
-VsCode: I wanted to replace all debugPrint(); to debugPrint(SomeClass('string hello')); after a couple of improvements could be able to do a regex for replacing that works in about a little bit more than 99,8% cases - one must have corrected manually. So some conclusions:
+VsCode: I wanted to replace all debugPrint(); to debugPrint(SomeClass('string hello')); after a couple of improvements could be able to do a regex for replacing that works in about a little bit more than 99,8% cases - exactly one must have corrected manually which seemed to be faster than improving the regex even more. So some conclusions:
 In VsCode something like this worked for replace (Regex option on), as Vscode is written in React as far as i remember so js syntax should work well and it did suprisingly well and intuitively:
 from:
 debugPrint\(((.|[\s\t\n\r])*?)(?<!\()\);
