@@ -2,6 +2,9 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+"Sync* methods are too slow." Not read yet, just from discord: something like 80% speed of others - could still be used, something like 35% of something faster but the same result) - worth watching.
+https://github.com/dart-lang/sdk/issues/32102#issuecomment-364467924
+===================================================================================
 Java has some additional type hinting flavour for f.e. methods, example of something similar (or not similar - had no time to investigate deeper)
 class Foo<T, U> {
   T bar<U>(String foo) {
