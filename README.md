@@ -2,6 +2,49 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+For me ro make sure all is as expected: Had some problems with sealed classes and switch() exhaustive checking so quick tests with explanation. 
+The point is for the below code that i was afraid that the below check is not enough for exhaustivess but it is, also true if SL2 had extending non sealed/abstract classes. Always true; 
+See the entire code not to miss anything.
+int someint2 = switch (slinstance) {
+    SL1() => 1,
+    SL2() => 2
+  };
+All is as i understood it should work so i must have overlooked something. Notice SL slinstance = SL11(); is SL if a function param is SL this is base for exhaustive checking. Also when you remove sealed from SL1 SL2, this also works as expected as i imagined. Not all combinations are tested but can be made sure everything should logically work.
+
+sealed class SL {}
+
+sealed class SL1 extends SL {
+  SL1();
+}
+
+sealed class SL2 extends SL {
+  SL2();
+}
+
+final class SL11 extends SL1 {
+  SL11();
+}
+
+final class SL12 extends SL1 {
+  SL12();
+}
+
+void main() {
+  SL slinstance = SL11();
+
+  // Start understanding from first to the last not somewhere from the middle.
+  int someint = switch (slinstance) {
+    SL2() => 2,
+    SL1() => 3
+  }; // ok only because both SL1 AND SL2 are here
+  int someint2 = switch (slinstance) {
+    SL1() => 1,
+    SL2() => 2
+  }; // SL2 not needed because SL2 is sealed and has not instance
+  int someint3 =
+      switch (slinstance) { SL11() => 2, SL12() => 3 }; // also accepted
+
+===================================================================================
 Recently asked on Discord about non existing try/catch expression (not what you have in a block {} but what you get using => like someFunction() => 10; ), got suggestion and came up with an example - the code is ridiculous this is example:
 It could be like this (i mean syntax, the sense of the folowing code is ridiculous, not tested):
 List a = [5, 10];
