@@ -2,6 +2,12 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+Recently asked on Discord about non existing try/catch expression (not what you have in a block {} but what you get using => like someFunction() => 10; ), got suggestion and came up with an example - the code is ridiculous this is example:
+It could be like this (i mean syntax, the sense of the folowing code is ridiculous, not tested):
+List a = [5, 10];
+List b = [4, for (final i in a) (j) {try {throw '';} catch (e) {return j;}}(i), 11];
+List b = [4, for (final i in a) someFunction(i), 11];
+===================================================================================
 "Sync* methods are too slow." Not read yet, just from discord: something like 80% speed of others - could still be used, something like 35% of something faster but the same result) - worth watching.
 https://github.com/dart-lang/sdk/issues/32102#issuecomment-364467924
 ===================================================================================
