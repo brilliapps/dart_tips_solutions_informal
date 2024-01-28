@@ -11,6 +11,14 @@ we got to a better link:
 So first this may be better link than others with some initial info from there:
 dart --enable-experiment=macros <script>, but the implementations do not yet support all the examples here so you should expect errors.LOOKS PROMISING!
 https://github.com/dart-lang/language/tree/main/working/macros/example
+
+from there go to lib and f.e. interited widget
+
+https://github.com/jakemac53/macros_example/
+This is i guess based on this:
+https://github.com/jakemac53/macro_prototype
+and there link to api:
+https://jakemac53.github.io/macro_prototype/doc/api/index.html
 ===================================================================================
 For me ro make sure all is as expected: Had some problems with sealed classes and switch() exhaustive checking so quick tests with explanation. 
 The point is for the below code that i was afraid that the below check is not enough for exhaustivess but it is, also true if SL2 had extending non sealed/abstract classes. Always true; 
