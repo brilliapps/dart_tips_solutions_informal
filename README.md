@@ -2,6 +2,9 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+Maybe good on the event loop - maybe important when implementing isolates.
+https://dart.cn/articles/archive/event-loop
+===================================================================================
 Just quick glance on macros, no time now:
 Warning! example looks like it works with no buildrunner, etc but macro_prototype project may be related to it.
 As was pointed on Discord: "Some macros do work now with just --enable-experiment=macros, and this repo has some instructions for getting set up." NOTICE that the discord version mentioned below is missing part " <script>"
