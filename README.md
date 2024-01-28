@@ -2,6 +2,16 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+Just quick glance on macros, no time now:
+Warning! example looks like it works with no buildrunner, etc but macro_prototype project may be related to it.
+As was pointed on Discord: "Some macros do work now with just --enable-experiment=macros, and this repo has some instructions for getting set up." NOTICE that the discord version mentioned below is missing part " <script>"
+a preview channel (dart) was mentioned maybe 25 january 2024. is this the same as beta?
+Don't click from here https://github.com/dart-lang/language/blob/main/working/macros/feature-specification.md
+we got to a better link:
+So first this may be better link than others with some initial info from there:
+dart --enable-experiment=macros <script>, but the implementations do not yet support all the examples here so you should expect errors.LOOKS PROMISING!
+https://github.com/dart-lang/language/tree/main/working/macros/example
+===================================================================================
 For me ro make sure all is as expected: Had some problems with sealed classes and switch() exhaustive checking so quick tests with explanation. 
 The point is for the below code that i was afraid that the below check is not enough for exhaustivess but it is, also true if SL2 had extending non sealed/abstract classes. Always true; 
 See the entire code not to miss anything.
