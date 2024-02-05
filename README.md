@@ -5,6 +5,16 @@ Some needed often difficult to find solutions, tips, etc. focusing on dart and V
 Maybe good on the event loop - maybe important when implementing isolates.
 https://dart.cn/articles/archive/event-loop
 ===================================================================================
+Not the most important but recent:
+https://stackoverflow.com/questions/24762414/is-there-anything-like-a-struct-in-dart/76391196#76391196
+Struct sort of lightweight class is not used everywhere, syntax like struct abc {int x = 10; int y = 12} - probably
+The point is you can do something similar using record newer feature of dart (more on that in the link there):
+typedef University = ({
+  String name,
+  String field,
+});
+
+===================================================================================
 Macros next but now:
 Some educative insights of customizable overriding of non extendable classes num, int, String, double, bool, Object (classes wrapping) - there should be repo somewhere around here now or soon :)
 
