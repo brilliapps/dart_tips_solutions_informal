@@ -5,7 +5,10 @@ Some needed often difficult to find solutions, tips, etc. focusing on dart and V
 Maybe good on the event loop - maybe important when implementing isolates.
 https://dart.cn/articles/archive/event-loop
 ===================================================================================
-mastering totally lints is for me a necessity to work with the still incoming (now is 02.2024) macros
+mastering totally lints is for me a necessity to work with the still incoming (now is 02.2024) integrated-seamles-code-generators called macros where for example an 10 + SomeCustomInteger(10) wouldn't cause lint error in Vscode for example, then macro would change the code of a marked method so that it doesn't throw compilation error. So the final goal is to cause accept int lint values only + SomeCustomInteger()
+Can be done this way?
+CAN BE DONE!?
+I DON'T KNOW NOW :).
 
 Read all, 
 
