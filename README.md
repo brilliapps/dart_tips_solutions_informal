@@ -5,6 +5,38 @@ Some needed often difficult to find solutions, tips, etc. focusing on dart and V
 Maybe good on the event loop - maybe important when implementing isolates.
 https://dart.cn/articles/archive/event-loop
 ===================================================================================
+mastering totally lints is for me a necessity to work with the still incoming (now is 02.2024) macros
+
+Read all, 
+
+the bottom line below there is an article on medium.com on custom_lint dart package but read all to understand better what and why
+
+we go here (the most important rule.dart)
+
+https://github.com/dart-lang/linter/blob/main/doc/writing-lints.md
+
+from here:
+
+https://github.com/dart-lang/linter?tab=readme-ov-file#linter-for-dart
+
+earlier from here - analyzer plugins
+
+https://dart.dev/tools/analysis#plugins
+
+And this is important there is link to pub dev
+
+where the custom_lint is the most liked and at the top and ...
+
+where earlier this link was seen
+
+https://medium.com/@gil.bassi/how-to-create-a-custom-lint-rule-for-flutter-49ce16210c28
+
+we just could finish but: but also i have this in my browser tab:
+
+https://github.com/passsy/dart-lint
+
+maybe related to this https://pub.dev/packages/lint
+===================================================================================
 Not the most important but recent:
 https://stackoverflow.com/questions/24762414/is-there-anything-like-a-struct-in-dart/76391196#76391196
 Struct sort of lightweight class is not used everywhere, syntax like struct abc {int x = 10; int y = 12} - probably
