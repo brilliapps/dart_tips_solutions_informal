@@ -2,6 +2,27 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+Maybe obvious to some, but when you have an object and you cast it to another type and assign to the different type another variable;
+Does this original not-casted variable/pointer to the object is identical() with the latter? YES IT IS IDENTICAL:
+class A {}
+
+class B extends A {}
+
+class C extends A {}
+
+void main() {
+  B b = B();
+  A aa = b as A;
+  A a = b as A;
+  print(identical(a, aa)); // checked:returns true
+  print(identical(a, b)); // checked: returns true
+}
+
+results were:
+true
+true
+
+===================================================================================
 Maybe good on the event loop - maybe important when implementing isolates.
 https://dart.cn/articles/archive/event-loop
 ===================================================================================
