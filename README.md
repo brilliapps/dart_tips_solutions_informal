@@ -2,6 +2,12 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+From discord Dart official channel: 
+when you have FutureOr<int> cde() => 10
+if you
+int wer = await cde();
+then it WILL await in the sense it will enforce using the event loop (as i know) it even though the return value is int not Future.
+===================================================================================
 Maybe obvious to some, but when you have an object and you cast it to another type and assign to the different type another variable;
 Does this original not-casted variable/pointer to the object is identical() with the latter? YES IT IS IDENTICAL:
 class A {}
