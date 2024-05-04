@@ -2,6 +2,16 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+From discord: how to run dart run 'some dart code as string' i anwered like this
+Probably the best answer is no but you could use https://pub.dev/packages/dart_eval package do your own dart file that accepts a dart code from a parram and run it in a similar to the following way dart run main.dart -a 'print("werwer")'. Not tested, just an idea in which direction you could go to achieve this.
+
+https://pub.dev/packages/dart_eval
+
+But someone answered this which is interesting
+you can do this
+echo "void main() => print('hello world');" > /tmp/dartfile && dart /tmp/dartfile && rm /tmp/dartfile
+
+===================================================================================
 From discord Dart official channel: 
 when you have FutureOr<int> cde() => 10
 if you
