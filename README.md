@@ -3,6 +3,7 @@ dart_tips_solutions_informal
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
 https://developer.mozilla.org/en-US/docs/Glossary/Recursion
+Some poor quality (+poor descripiton) tests and solutions about recursive calls here https://github.com/brilliapps/dart_tips_solutions_informal/blob/main/recursion_errors_tests_solutions.dart
 Recursive calls to avoid StackOverflow (too many recursion): in dart run... it was allowed to make like 45000 recursive calls fo simple method for sync calls and like 65000 for async.
 And as far as i know the number may vary probably also because of complexity of a function. Regardless of the complexity:
 If you have something like a queue of methods both sync and async to be called with groups first sync and the below example and the sync may be finished synchronously 
