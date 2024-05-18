@@ -2,6 +2,31 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+https://developer.mozilla.org/en-US/docs/Glossary/Recursion
+Recursive calls to avoid StackOverflow (too many recursion): in dart run... it was allowed to make like 45000 recursive calls fo simple method for sync calls and like 65000 for async.
+And as far as i know the number may vary probably also because of complexity of a function. Regardless of the complexity:
+If you have something like a queue of methods both sync and async to be called with groups first sync and the below example and the sync may be finished synchronously 
+with no single async, but it maybe that finally there is an async method, and there may be groups of sync/async (the below example works for even async first).
+And it is important, that the following proposal allows you adding methods to the queue even before the calling is finishes (it is possible while async method may finish much later than typical sync)
+Here is a simple, simplified, initial pattern !!! with no break/end for the while () loop - you must enforce it - the functionSync deals with a group of sync only methods, and functionAsync with a group of async, 
+if then now is called sync group, when the first async method appears in the queue we finish the async and go another while loop iteration.
+Any while's break, and locking the functionSyncAsync() from second call when it's previous async aspect not finished is left to you, Reader
+This is an example non-recurcive flat almost endless recursive calls until all methods in the queue are called and recursive and enforces synchronous finish if all methods in the queue are sync 
+
+
+functionSyncAsync() {
+  /// prevent from calling this method when the previous call is not finished - see the while() loop - like never ends
+  functionSync();
+  () async {
+    while (true) {
+      await functionAsync();
+      functionSync();
+    }
+  }();
+}
+
+
+===================================================================================
 From discord: how to run dart run 'some dart code as string' i anwered like this
 Probably the best answer is no but you could use https://pub.dev/packages/dart_eval package do your own dart file that accepts a dart code from a parram and run it in a similar to the following way dart run main.dart -a 'print("werwer")'. Not tested, just an idea in which direction you could go to achieve this.
 
