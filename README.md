@@ -2,6 +2,16 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+/// SOME PARTS ARE COMMENTED
+/// On the discord i have this confirmation of a popular user there: "async functions run synchronously until the first await"
+/// ...code... () async {no-await-code}(); in-this-place-the-function-before-is-fully-finished
+/// ...code... await () async {no-await-coDe}(); in-this-place-the-function-before-HASN'T-STARTED-YET
+/// ...code... Future(() {}); in-this-place-the-function-before-that-was-passed-as-Future-constructor-param-HASN'T-STARTED-YET
+/// Also all tests like this don't change the rule await () async {no-await-coe}() #HUUUGE 2 MINUTE SYNC LOOP# in-this-place-the-function-before-HASN'T-STARTED-YET;
+
+
+
+===================================================================================
 https://developer.mozilla.org/en-US/docs/Glossary/Recursion
 Some poor quality (+poor descripiton) tests and solutions about recursive calls here https://github.com/brilliapps/dart_tips_solutions_informal/blob/main/recursion_errors_tests_solutions.dart
 Recursive calls to avoid StackOverflow (too many recursion): in dart run... it was allowed to make like 45000 recursive calls fo simple method for sync calls and like 65000 for async.
