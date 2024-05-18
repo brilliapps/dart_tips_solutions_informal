@@ -2,6 +2,10 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+NOT TYPICAL NOT OBVIOUS ASYNC CALLS 
+the most important:
+Any really asynchronous code that is called - it is executed always after the current synchronous block (maybe function/method) of code (where the async code was called) is finished. 
+
 /// SOME PARTS ARE COMMENTED
 /// On the discord i have this confirmation of a popular user there: "async functions run synchronously until the first await"
 /// ...code... () async {no-await-code}(); in-this-place-the-function-before-is-fully-finished
