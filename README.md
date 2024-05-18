@@ -3,6 +3,7 @@ dart_tips_solutions_informal
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
 NOT TYPICAL NOT OBVIOUS ASYNC CALLS 
+More tests here (still this "project") https://github.com/brilliapps/dart_tips_solutions_informal/blob/main/async-await-future-not-obvious-situations-tests.dart
 the most important:
 Any really asynchronous code that is called - it is executed always after the current synchronous block (maybe function/method) of code (where the async code was called) is finished. however if a not "await"-ed async function call that body consists of sync part, await part in the middle and again the sync part, so then after finishing the call of such a function the next instruction after the call have to it's disposal all data/changed properties/ect, but doesn't the part where await was called and not available the synchronous data/changed propertis/etc. 
 But instead of using syntax () {}() where the aforementioned rule applies use Future(function-whatever-sync-async-await-no-await-WHATEEEVER); and the whole part is not available to the synchronous code following the Future() constructor
@@ -33,7 +34,7 @@ But instead of using syntax () {}() where the aforementioned rule applies use Fu
 
 ===================================================================================
 https://developer.mozilla.org/en-US/docs/Glossary/Recursion
-Some poor quality (+poor descripiton) tests and solutions about recursive calls here https://github.com/brilliapps/dart_tips_solutions_informal/blob/main/recursion_errors_tests_solutions.dart
+Some poor quality (+poor descripiton) tests and solutions about recursive calls here https://github.com/brilliapps/dart_tips_solutions_informal/blob/main/recursion_errors_tests_solutions.dart ((still this "project"))
 Recursive calls to avoid StackOverflow (too many recursion): in dart run... it was allowed to make like 45000 recursive calls fo simple method for sync calls and like 65000 for async.
 And as far as i know the number may vary probably also because of complexity of a function. Regardless of the complexity:
 If you have something like a queue of methods both sync and async to be called with groups first sync and the below example and the sync may be finished synchronously 
