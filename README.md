@@ -2,6 +2,20 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+Hoped that cast OF ASDFASDF2() to ASDFASDF WILL CHANGE IT RUNTIME TYPE BUT NOT.
+class ASDFASDF {
+  ASDFASDF();
+}
+
+class ASDFASDF2 extends ASDFASDF {
+  ASDFASDF2() : super();
+}
+
+main() {
+  print(ASDFASDF2().runtimeType.toString()); // prints ASDFASDF2
+  print((ASDFASDF2() as ASDFASDF).runtimeType.toString()); // prints ASDFASDF2
+
+===================================================================================
 NOT TYPICAL NOT OBVIOUS ASYNC CALLS 
 More tests here (still this "project") https://github.com/brilliapps/dart_tips_solutions_informal/blob/main/async-await-future-not-obvious-situations-tests.dart
 the most important:
