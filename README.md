@@ -2,6 +2,7 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+! Monitor to update - understand the process and correct this piece of info if necessary.
 https://dart.academy/asynchrony-primer-for-dart-and-flutter/
 I sometimes write wrongly in my doc like "the main isolate", "the event loop isolate".
 But as far as i can see for each isolate there is an event loop:
