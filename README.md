@@ -2,6 +2,12 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+https://dart.academy/asynchrony-primer-for-dart-and-flutter/
+I sometimes write wrongly in my doc like "the main isolate", "the event loop isolate".
+But as far as i can see for each isolate there is an event loop:
+Especially
+"Each has its own memory space, which prevents the need for memory locking to avoid race conditions, and each has its own event queues and operations. For many apps, this main isolate is all a coder needs to be concerned about, but it is possible to spawn new isolates to run long or laborious computations without blocking the program's main isolate."
+===================================================================================
 Hoped that cast OF ASDFASDF2() to ASDFASDF WILL CHANGE IT RUNTIME TYPE BUT NOT.
 class ASDFASDF {
   ASDFASDF();
