@@ -5,7 +5,7 @@ Some needed often difficult to find solutions, tips, etc. focusing on dart and V
 ! Monitor to update - understand the process and correct this piece of info if necessary.
 https://dart.academy/asynchrony-primer-for-dart-and-flutter/
 I sometimes write wrongly in my doc like "the main isolate", "the event loop isolate".
-But as far as i can see for each isolate there is an event loop:
+But as far as i can see for each isolate there is an event loop (the main isolate which starts with the main() method - when it generally finishes then on the same main isolate the event loop starts to work - this would explain maybe why the current synchronous function/piece of code must fihish first and any non awaited future is executed and it is not done paralelly like on the separate event loop isolate or something similar - here not far below i write about it and tests performed):
 Especially
 "Each has its own memory space, which prevents the need for memory locking to avoid race conditions, and each has its own event queues and operations. For many apps, this main isolate is all a coder needs to be concerned about, but it is possible to spawn new isolates to run long or laborious computations without blocking the program's main isolate."
 ===================================================================================
