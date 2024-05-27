@@ -6,19 +6,22 @@
 /// SOME PARTS ARE COMMENTED
 /// On the discord i have this confirmation of a popular user there: "async functions run synchronously until the first await"
 /// ...code... () async {no-await-code}(); in-this-place-the-function-before-is-fully-finished
-///  print('test1D');
-///  () async {
-///    print('test2D1'); // THIS PART IS CALLED BEFORE print('test3D')
-///    await Future(() {}); // BUT THIS PART IS CALLED AFTER print('test3D')
-///    print('test2D2'); // AND ALSO THIS PART IS CALLED BEFORE print('test3D')
-///  }();
-///  for (dynamic i = 10; i < 10000000000; i++) {} // THIS TAKES LIKE 10 SECONDS - with it or without it the same
-///  print('test3D');
+  print('test1D');
+  () async {
+    print('test2D1');
+    await Future(() {
+      print('test2D1B');
+    });
+    print('test2D2');
+  }();
+  for (dynamic i = 10; i < 10000000000; i++) {}
+  print('test3D');
 
   //Another surprise: before the first await the code was performed synchronously so it's result is awailable to the 3D point, but 2D2 is not first
   //test1D
   //test2D1
   //test3D
+  //test2D1B
   //test2D2
 
 /// ...code... await () async {no-await-coDe}(); in-this-place-the-function-before-HASN'T-STARTED-YET
@@ -72,11 +75,21 @@ main() {
 
   print('test1D');
   () async {
-    await Future(() {});
-    print('test2D');
+    print('test2D1');
+    await Future(() {
+      print('test2D1B');
+    });
+    print('test2D2');
   }();
   for (dynamic i = 10; i < 10000000000; i++) {}
   print('test3D');
+
+  //Another surprise: before the first await the code was performed synchronously so it's result is awailable to the 3D point, but 2D2 is not first
+  //test1D
+  //test2D1
+  //test3D
+  //test2D1B
+  //test2D2
 
   print('test1A');
   Future(() async {
@@ -87,7 +100,9 @@ main() {
 
   print('test1E');
   Future abc = () async {
-    await Future(() {});
+    await Future(() {
+      print('test1E2');
+    });
     print('test2E');
   }();
   for (dynamic i = 10; i < 10000000000; i++) {}
@@ -114,11 +129,11 @@ main() {
     print('test2G');
   });
   print('test3G');
-  
   //was not sure what to expect - it executes SYNCHRONOUS function with the delay not as with the rule that there must be await or something, prints:
   //test1G
   //test3G
-  //test2G  
+  //test2G
+
   () async {
     print('testH1');
     await () {
