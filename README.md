@@ -34,18 +34,22 @@ But instead of using syntax () {}() where the aforementioned rule applies use Fu
 /// ...code... () async {no-await-code}(); in-this-place-the-function-before-is-fully-finished
   print('test1D');
   () async {
-    print('test2D1'); // THIS PART IS CALLED BEFORE print('test3D')
-    await Future(() {}); // BUT THIS PART IS CALLED AFTER print('test3D')
-    print('test2D2'); // AND ALSO THIS PART IS CALLED BEFORE print('test3D')
+    print('test2D1');
+    await Future(() {
+      print('test2D1B');
+    });
+    print('test2D2');
   }();
-  for (dynamic i = 10; i < 10000000000; i++) {} // THIS TAKES LIKE 10 SECONDS - with it or without it the same
+  for (dynamic i = 10; i < 10000000000; i++) {}
   print('test3D');
 
   //Another surprise: before the first await the code was performed synchronously so it's result is awailable to the 3D point, but 2D2 is not first
   //test1D
   //test2D1
   //test3D
+  //test2D1B
   //test2D2
+
 
   () async {
     print('testH1');
