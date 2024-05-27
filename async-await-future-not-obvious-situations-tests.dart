@@ -114,8 +114,18 @@ main() {
     print('test2G');
   });
   print('test3G');
+  
   //was not sure what to expect - it executes SYNCHRONOUS function with the delay not as with the rule that there must be await or something, prints:
   //test1G
   //test3G
   //test2G  
+  () async {
+    print('testH1');
+    await () {
+      print('testH2');
+    }();
+    print('testH3');
+  }();
+  // for sync method (with not "async" keyword) but "await"ed it awaits prints testH1, testH2, testH3
+  
 }
