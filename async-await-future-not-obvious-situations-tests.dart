@@ -126,6 +126,43 @@ main() {
     }();
     print('testH3');
   }();
-  // for sync method (with not "async" keyword) but "await"ed it awaits prints testH1, testH2, testH3
+  print('testH4');
+  // prints: testH1, testH2, testH4, testH3
+  // suprising conlusion: sync method preceded with await keyword is awaited but not the way you might expect, because while testJ3 is after J4 but you would like to see j2 also after j4, but it is before j4
+
+  () async {
+    print('testJ1');
+    await () async {
+      print('testJ2');
+    }();
+    print('testJ3');
+  }();
+  print('testJ4');
+  // prints testJ1 testJ2 testJ4 testJ3
+  // suprising conlusion: sync method preceded with await keyword is awaited but not the way you might expect, because while testH3 is after H4 but you would like to see h2 also after h4, but it is before h4
+
+  () async {
+    print('testK1');
+    await () async {
+      await () {
+        print('testK2');
+      }();
+    }();
+    print('testK3');
+  }();
+  print('testK4');
+  // prints testK1 testK2 testK4 testK3
+  // the same order - again suprised - expected 2 and 3 after 4
+
+  () async {
+    print('testT1');
+    await () {
+      print('testT2');
+      return Future(() {});
+    }();
+    print('testT3');
+  }();
+  print('testT4');
+  // exactly like with ...H preceding example (that with testH1)
   
 }
