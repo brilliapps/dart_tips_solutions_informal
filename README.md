@@ -426,6 +426,69 @@ so when as an argument of a "function nr 1" you pass an anonymous function "obje
 But if you use as function nr 2 a regular method defined like this class abc {regularmethod() {}} and pass to function nr 1 directly like this functionnr1(abcinstance.regularmethod) then it will get another identity inside "function nr 1". If you compare this abcinstance.regularmethod with a pointer to the method from another source like Stream, or whatever, the two objects won't be identical, wont be the same. The identity() operator will return false and identityHashCode too.
 The topic of identity comparison and 100% unfailingless of it is discussed below in this file somewhere because of GC or someting else.
 
+Some months later code, may be not precisely related:
+class functionOrMethodIdenticalCheck {
+  Function function = () {};
+  methodOne() {}
+}
+
+class abc1 {}
+
+class abc2 {
+  @override
+  bool operator ==(Object other) {
+    if (identical(other, this)) {
+      return true;
+    }
+    //if (!(super == (other))) return false;
+    return true;
+  }
+
+  /// This method contains example approximate implementation code. See operator == description for this class - this shouldn't return 10 like here (it is possible but don't do that), but you should understand what hashcode is for, etc. so go to this class == operator description
+  /// Caution about @mustBeOverriden annotation here, read all carefully! By default dart won't require you to override operators and hashCode so this annotation enfoces that but it will require to implement it in each class extending class that already implemented interface with this method. So you must in first implementation of this method add @mustCallSuper and in a class extending the class just return only what super.overriden method returns like return super == object; for == operator or return super.hashCode; for hashCode method  @override
+  @override
+  int get hashCode => Object.hashAll([1]);
+}
+
+main() {
+  print('1');
+  Set abc8 = {22222, 3, 22222};
+  print(abc8); //{22222, 3}
+  Set abcd8 = {Object(), Object()};
+  print(abcd8); //{Instance of 'Object', Instance of 'Object'}
+  var dddd8 = Object();
+  Set abcde8 = {dddd8, dddd8};
+  print(abcde8); //{Instance of 'Object'}
+  Set abcd82 = {abc1(), abc1()};
+  print(abcd82); //{Instance of 'abc1', Instance of 'abc1'}
+  var dddd9 = abc1();
+  Set abcde9 = {dddd9, dddd9};
+  print(abcde9); // {Instance of 'abc1'}
+  Set abcd83 = {abc2(), abc2()};
+  print(abcd83); // {Instance of 'abc2'}
+  // to the above see operator ==, hashCode and Set doc - explicitly says to remind you hashCode is for speed, if two
+  // So the doc points to checking first == second hashcode
+  // "The default Set implementation, LinkedHashSet, considers objects indistinguishable if they are equal with regard to Object.== and Object.hashCode.  var dddd10 = abc2();"
+  var dddd10 = abc2();
+  Set abcde10 = {dddd10, dddd10};
+  print(abcde10); // {Instance of 'abc2'}
+  print('2');
+  var eerq1 = functionOrMethodIdenticalCheck();
+  var eerq2 = functionOrMethodIdenticalCheck();
+  print(Set.from([
+    eerq1.methodOne,
+    eerq1.methodOne
+  ])); //{Closure: () => dynamic from Function 'methodOne':.}
+  print(Set.from([eerq1.function, eerq1.function])); //{Closure: () => Null}
+  print(Set.from([
+    eerq1.methodOne,
+    eerq2.methodOne
+  ])); //{Closure: () => dynamic from Function 'methodOne':., Closure: () => dynamic from Function 'methodOne':.}
+  print(Set.from([
+    eerq1.function,
+    eerq2.function
+  ])); //{Closure: () => Null, Closure: () => Null}
+
 ===================================================================================
 First some quick novelty there is from 3.3.0 extension type, asked on dart discord official, but if you add implements int it is going to sort of copy the features from int like operator "<", "==", if you not implement you need to write your code for the operators.
 [Edit:][start]
