@@ -17,8 +17,8 @@ class abchhhhh<T> {
     print(T == String);
     print(T == Object);
     //print(T == Object?); not allowed
-    print(T is Object?);
-    print(T is String?);
+    print("one: ${T is Object?}");
+    print("two: ${T is String?}");
     print(T is String);
     print('===============');
   }
@@ -43,38 +43,37 @@ Type
 false
 false
 false
-true
-false
-false
-===============
-Type
-false
-false
-true
-true
-false
+one: true
+two: false
 false
 ===============
 Type
 false
 false
-false
 true
+one: true
+two: false
 false
+===============
+Type
+false
+false
+false
+one: true
+two: false
 false
 ===============
 Type
 false
 true
 false
-true
-false
+one: true
+two: false
 false
 ===============
 abchhhhh<Object?>
 true
 Null
-
 
 
 
