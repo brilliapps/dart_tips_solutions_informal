@@ -2,6 +2,51 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+Let the code speak for itself - some simple type tests. Such a set:
+class abchhhhh<T> {
+  abchhhhh() {
+    print(T.runtimeType.toString());
+    print(T == Null);
+    print(T == String);
+    print(T == Object);
+    //print(T == Object?); not allowed
+    print(T is Object?);
+    print('===============');
+  }
+}
+
+main() {
+  var ertretetertrett = abchhhhh<Object?>();
+  abchhhhh<Object>();
+  print(ertretetertrett.runtimeType.toString());
+  //print(T == Object?); not allowed
+  print(ertretetertrett is Object?);
+  Object? abc7777;
+  print(abc7777.runtimeType);
+  abc7777 = 10;
+  return;
+
+Results (count the number of prints) see the marked as important:
+
+Type
+false
+false
+false   important: print(T == Object);
+true    important: print(T is Object?);
+===============
+Type
+false
+false 
+true important: print(T == Object);
+true important: print(T is Object?);
+===============
+abchhhhh<Object?>
+true
+Null
+
+
+
+===================================================================================
 ! Monitor to update - understand the process and correct this piece of info if necessary.
 https://dart.academy/asynchrony-primer-for-dart-and-flutter/
 I sometimes write wrongly in my doc like "the main isolate", "the event loop isolate".
