@@ -1,3 +1,4 @@
+Some unprofessional quick tests (sorry for function and variable names).
 Let the code speak for itself - some simple type tests. Such a set:
 For me the important conclusion out of conclusions was:
     if T in a generic class is "String?" - why:  
