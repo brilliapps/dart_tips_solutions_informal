@@ -3,6 +3,13 @@ dart_tips_solutions_informal
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
 Let the code speak for itself - some simple type tests. Such a set:
+For me the important conclusion out of conclusions was:
+    if T in a generic class is "String?" - why:  
+    //print(T == Object?); // not allowed
+    print(T is Object?); true
+    print(T is String?); == false
+
+
 class abchhhhh<T> {
   abchhhhh() {
     print(T.runtimeType.toString());
@@ -11,6 +18,8 @@ class abchhhhh<T> {
     print(T == Object);
     //print(T == Object?); not allowed
     print(T is Object?);
+    print(T is String?);
+    print(T is String);
     print('===============');
   }
 }
@@ -18,6 +27,8 @@ class abchhhhh<T> {
 main() {
   var ertretetertrett = abchhhhh<Object?>();
   abchhhhh<Object>();
+  var ertretetertrett2 = abchhhhh<String?>();
+  var ertretetertrett3 = abchhhhh<String>();
   print(ertretetertrett.runtimeType.toString());
   //print(T == Object?); not allowed
   print(ertretetertrett is Object?);
@@ -31,18 +42,39 @@ Results (count the number of prints) see the marked as important:
 Type
 false
 false
-false   important: print(T == Object);
-true    important: print(T is Object?);
+false
+true
+false
+false
 ===============
 Type
 false
-false 
-true important: print(T == Object);
-true important: print(T is Object?);
+false
+true
+true
+false
+false
+===============
+Type
+false
+false
+false
+true
+false
+false
+===============
+Type
+false
+true
+false
+true
+false
+false
 ===============
 abchhhhh<Object?>
 true
 Null
+
 
 
 
