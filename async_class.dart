@@ -30,7 +30,6 @@ final class MyAsyncClassFuture extends MyAsyncClass
           {Function? onError}) =>
       _initCompleter.future.then(onValue, onError: onError);
 
-  /// [Edit] No lint error - answer from discord! implements Future (Future<dynamic>) changed to Future<_MyAsyncClass>. The old problem Lint error incompatible with docs? or something FutureOr<_MyAsyncClass> onTimeout()? must have been changed to FutureOr<dynamic> onTimeout()? then cast to FutureOr<_MyAsyncClass> Function()?
   Future<MyAsyncClass> timeout(Duration timeLimit,
           {FutureOr<MyAsyncClass> onTimeout()?}) =>
       _initCompleter.future.timeout(timeLimit, onTimeout: onTimeout);
@@ -39,7 +38,7 @@ final class MyAsyncClassFuture extends MyAsyncClass
 
   examples() {
     () async {
-      /*return not Future*/ MyAsyncClass();
+      /*returns not Future*/ MyAsyncClass();
       await MyAsyncClassFuture();
       await ~MyAsyncClass(); // returns MyAsyncClassFuture
 
