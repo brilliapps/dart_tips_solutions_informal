@@ -2,6 +2,50 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+
+important about mixin - if there are two declarations in mixin and with class that mixes with the mixin, the declaration/value in the class (not mixin) has higher priority
+it is as if the class overriden the mixin value
+but in a class extending the class that mixes with the mixin but doesn't redeclare the property the mixin takes the priority - logical
+
+mixin werwerwerwerwer {
+  late Map wer = <String, String>{"werwerwerwre": 'werwerewr'};
+}
+
+class ertetet with werwerwerwerwer {
+  Map wer = <String, String>{"tttttttttttttttttt": 'werwerewr'};
+}
+
+class ertetet2 extends ertetet {
+  ertetet2() : super();
+}
+
+main() {
+// below prints prints {werwerwerwre: werwerewr}
+  print(ertetet2().wer.toString());
+  return;
+
+///the second example
+
+mixin werwerwerwerwer {
+  late Map wer = <String, String>{"werwerwerwre": 'werwerewr'};
+}
+
+class ertetet {
+  Map wer = <String, String>{"tttttttttttttttttt": 'werwerewr'};
+}
+
+class ertetet2 extends ertetet with werwerwerwerwer {
+  ertetet2() : super();
+}
+
+main() {
+  print(ertetet2().wer.toString());
+// prints {werwerwerwre: werwerewr}
+  return;
+
+
+===================================================================================
+
 Some unprofessional quick tests (sorry for function and variable names).
 Let the code speak for itself - some simple type tests. Such a set:
 Answer got on discord: https://stackoverflow.com/questions/50188729/checking-what-type-is-passed-into-a-generic-method
