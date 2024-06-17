@@ -3,6 +3,8 @@ dart_tips_solutions_informal
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
 avoiding non recursive calls patterns, for f.e. nested map
+can be found here:
+https://github.com/brilliapps/Condition/blob/main/lib/condition_data_managging.dart
 find synchronous example
 calculateSizeOfValueInBytesForSomeRelevantTypes(Object? value)
 for a combination of sync and async list of elements that can change.
