@@ -2,7 +2,12 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
-
+avoiding non recursive calls patterns, for f.e. nested map
+find synchronous example
+calculateSizeOfValueInBytesForSomeRelevantTypes(Object? value)
+for a combination of sync and async list of elements that can change.
+void /*bool?*/ _executeElementsInTheQueue()
+===================================================================================
 important about mixin - if there are two declarations in mixin and with class that mixes with the mixin, the declaration/value in the class (not mixin) has higher priority
 it is as if the class overriden the mixin value,
 but in a class extending the class that mixes with the mixin but doesn't redeclare the property the mixin takes the priority - logical
