@@ -4,9 +4,10 @@ Some needed often difficult to find solutions, tips, etc. focusing on dart and V
 ===================================================================================
 
 important about mixin - if there are two declarations in mixin and with class that mixes with the mixin, the declaration/value in the class (not mixin) has higher priority
-it is as if the class overriden the mixin value
+it is as if the class overriden the mixin value,
 but in a class extending the class that mixes with the mixin but doesn't redeclare the property the mixin takes the priority - logical
 read all examples
+And the good news is that wherever you call the property overriden or not by the mixin - this is the same object, not that in some circumstances one object from the same declaration and a different one from another but one object as examples show.
 
 you can't do something like that in a mixin, and wait until it will be declared in a class it the mixin is mixed in.
 /// ignore: undefined_identifier
