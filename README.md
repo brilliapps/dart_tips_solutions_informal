@@ -7,6 +7,7 @@ important about mixin - if there are two declarations in mixin and with class th
 it is as if the class overriden the mixin value
 but in a class extending the class that mixes with the mixin but doesn't redeclare the property the mixin takes the priority - logical
 read all examples
+
 you can't do something like that in a mixin, and wait until it will be declared in a class it the mixin is mixed in.
 /// ignore: undefined_identifier
 int methodtest() => unexistentpropertyignore;
@@ -18,6 +19,10 @@ mixin werwerwerwerwer {
 
 class ertetet with werwerwerwerwer {
   Map wer = <String, String>{"tttttttttttttttttt": 'werwerewr'};
+  ertetet() {
+    /// nothing changes
+    print(_wer.toString());
+  }
 }
 
 class ertetet2 extends ertetet {
@@ -25,7 +30,7 @@ class ertetet2 extends ertetet {
 }
 
 main() {
-// below prints prints {werwerwerwre: werwerewr}
+// below prints two times prints {werwerwerwre: werwerewr}
   print(ertetet2().wer.toString());
   return;
 
@@ -45,7 +50,7 @@ class ertetet2 extends ertetet with werwerwerwerwer {
 
 main() {
   print(ertetet2().wer.toString());
-// prints {werwerwerwre: werwerewr}
+// prints two times: {werwerwerwre: werwerewr}
   return;
 
 
