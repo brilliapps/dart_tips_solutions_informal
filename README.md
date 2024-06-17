@@ -8,6 +8,8 @@ it is as if the class overriden the mixin value,
 but in a class extending the class that mixes with the mixin but doesn't redeclare the property the mixin takes the priority - logical
 read all examples
 And the good news is that wherever you call the property overriden or not by the mixin - this is the same object, not that in some circumstances one object from the same declaration and a different one from another but one object as examples show.
+Also problem solved with   print((ertetet() as ertetet2).wer.toString()); because exception: type 'ertetet' is not a subtype of type 'ertetet2' in type cast
+
 
 you can't do something like that in a mixin, and wait until it will be declared in a class it the mixin is mixed in.
 /// ignore: undefined_identifier
