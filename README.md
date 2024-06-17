@@ -6,6 +6,11 @@ Some needed often difficult to find solutions, tips, etc. focusing on dart and V
 important about mixin - if there are two declarations in mixin and with class that mixes with the mixin, the declaration/value in the class (not mixin) has higher priority
 it is as if the class overriden the mixin value
 but in a class extending the class that mixes with the mixin but doesn't redeclare the property the mixin takes the priority - logical
+read all examples
+you can't do something like that in a mixin, and wait until it will be declared in a class it the mixin is mixed in.
+/// ignore: undefined_identifier
+int methodtest() => unexistentpropertyignore;
+
 
 mixin werwerwerwerwer {
   late Map wer = <String, String>{"werwerwerwre": 'werwerewr'};
@@ -42,6 +47,34 @@ main() {
   print(ertetet2().wer.toString());
 // prints {werwerwerwre: werwerewr}
   return;
+
+
+mixin werwerwerwerwer {
+  late Map wer = <String, String>{"werwerwerwre": 'werwerewr'};
+
+  /// ignore: undefined_identifier
+  int methodtest() => unexistentpropertyignore;
+}
+
+class ertetet {
+  int unexistentpropertyignore = 10;
+  Map wer = <String, String>{"tttttttttttttttttt": 'werwerewr'};
+}
+
+class ertetet2 extends ertetet with werwerwerwerwer {
+  ertetet2() : super();
+}
+
+main() {
+  print(ertetet2().wer.toString());
+  print(ertetet2().methodtest().toString());
+  return;
+
+main.dart:150:23: Error: The getter 'unexistentpropertyignore' isn't defined for the class 'werwerwerwerwer'.
+ - 'werwerwerwerwer' is from 'package:darttests/main.dart' ('main.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'unexistentpropertyignore'.
+  int methodtest() => unexistentpropertyignore;
+
 
 
 ===================================================================================
