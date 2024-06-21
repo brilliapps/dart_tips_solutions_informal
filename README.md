@@ -90,7 +90,15 @@ main.dart:150:23: Error: The getter 'unexistentpropertyignore' isn't defined for
 Try correcting the name to the name of an existing getter, or defining a getter or field named 'unexistentpropertyignore'.
   int methodtest() => unexistentpropertyignore;
 
+and finally in short and with a quick change to the previous code (class gets priority over mixin):
+class ertetet2 extends ertetet with werwerwerwerwer {
+  Map wer = <String, String>{"uuuuuuuuuuuuuuu": 'werwerewr'};
+  ertetet2() : super();
+}
 
+main() {
+  print(ertetet2().wer.toString());
+peinrs: {uuuuuuuuuuuuuuu: werwerewr}
 
 ===================================================================================
 
