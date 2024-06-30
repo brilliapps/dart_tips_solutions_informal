@@ -1,3 +1,4 @@
+/// THIS CAN BE JUST MIXIN !!! MyAsyncClass with AsyncClass<T>
 abstract interface class AsyncClass<T> {
   final Completer<T> _initCompleter = Completer<T>();
   T operator ~() {
@@ -5,6 +6,7 @@ abstract interface class AsyncClass<T> {
   }
 }
 
+/// AsyncClass CAN BE JUST MIXIN !!! MyAsyncClass with AsyncClass<T>
 final class MyAsyncClass extends AsyncClass<MyAsyncClass> {
   MyAsyncClass() {
     Future(() async {
