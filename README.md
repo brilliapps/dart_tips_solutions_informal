@@ -2,6 +2,8 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+Shon Connery: very naish https://pub.dev/packages/webcrypto
+===================================================================================
 avoiding non recursive calls patterns, for f.e. nested map (also a flat Map)
 can be found here:
 https://github.com/brilliapps/Condition/blob/main/lib/condition_data_managging.dart
