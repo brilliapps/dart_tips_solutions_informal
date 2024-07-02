@@ -4,6 +4,17 @@ Some needed often difficult to find solutions, tips, etc. focusing on dart and V
 ===================================================================================
 Shon Connery: very naish https://pub.dev/packages/webcrypto
 ===================================================================================
+You can apply a macro to an entire file/library (have no detailed knowledge to distinguish between them)
+@MyMacro();
+library;
+
+you can't investigate the method body but you can use augmented(); method which somehow performes the old stuff.
+augment void foo() {
+  print('start foo');
+  augmented();
+  print('end foo');
+}
+===================================================================================
 avoiding non recursive calls patterns, for f.e. nested map (also a flat Map)
 can be found here:
 https://github.com/brilliapps/Condition/blob/main/lib/condition_data_managging.dart
