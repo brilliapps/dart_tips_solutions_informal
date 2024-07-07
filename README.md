@@ -4,6 +4,9 @@ Some needed often difficult to find solutions, tips, etc. focusing on dart and V
 ===================================================================================
 Shon Connery: very naish https://pub.dev/packages/webcrypto
 ===================================================================================
+
+If you acces unexisten element of a List - it throws. If Map returns null;
+===================================================================================
 You can apply a macro to an entire file/library (have no detailed knowledge to distinguish between them)
 @MyMacro();
 library;
