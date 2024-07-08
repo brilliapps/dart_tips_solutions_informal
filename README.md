@@ -4,8 +4,45 @@ Some needed often difficult to find solutions, tips, etc. focusing on dart and V
 ===================================================================================
 Shon Connery: very naish https://pub.dev/packages/webcrypto
 ===================================================================================
+If you access unexisten element of a List - it throws. If Map returns null;
+===================================================================================
+Isolates - for run and spawn the same result (here spawn).
+So in essence as the docs say copies of objects are copies you will never change the original object on the source isolate but the copy.
+  https://dart.dev/language/isolates#running-an-existing-method-in-a-new-isolate
+  https://api.flutter.dev/flutter/foundation/compute.html
+Now example:
 
-If you acces unexisten element of a List - it throws. If Map returns null;
+int b = 20;
+
+class A {
+  int a = 10;
+  c() {
+    b++;
+  }
+}
+
+void main() async {
+  var a = A();
+
+  await Isolate.spawn<void>((void v) {
+    print(a.a);
+    a.a = 11;
+    a.c();
+    print(a.a);
+    print(b);
+  }, Void);
+
+  print(a.a);
+  print(b);
+
+prints:
+flutter: 10
+flutter: 11
+flutter: 21
+flutter: 10
+flutter: 20
+
+
 ===================================================================================
 You can apply a macro to an entire file/library (have no detailed knowledge to distinguish between them)
 @MyMacro();
