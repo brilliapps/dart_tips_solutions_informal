@@ -2,6 +2,10 @@
 //The bottom line: Warning for the web we don't work on the copy of the "higher-level-scope objects but on the original as i suspected including the argument passed as Message !!!
 //So for a multiplatform code you can't change any higher-level-scope object except for reading data from them with the additional warning: Sometimes you can think you read a property from an object but it is getter, but the getter may set up some property. You must be sure then either you work on a simple higher-level scope object, or you must always investigate if a getter or method does the job but doesn't change any property involved.
 //Again it is the same for the object passed as message of the compute method - it is not a copy for web. So you must always be aware of this topic.
+//You can also make a interface/class (interface Serializable/CopyAble ?) maybe with factory or not maybe implementable where you declare a serialize/toJson 
+//and deserialize/fromJson - it means a fully scope independent where you can make a copy of an object of the class using serialize/deserialize feature. and make 
+// a second class ABCD {} with a static compute<M extends Serializable/CopyAble, R> method with the difference to the original that is creates a copy 
+// of the class for the web but for native it uses the original.
 //SUMMARY FOR THE ABOVE - IF YOU WRITE FULLY COMPATIBLE MULTIPLATFORM CODE.
 //The only way to run for both web and native is compute method which is great but
 //- for run() and spawn() BUT ALSO THE compute() method the same result (here spawn).
