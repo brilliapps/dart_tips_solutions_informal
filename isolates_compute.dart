@@ -6,6 +6,8 @@
 //and deserialize/fromJson - it means a fully scope independent where you can make a copy of an object of the class using serialize/deserialize feature. and make 
 // a second class ABCD {} with a static compute<M extends Serializable/CopyAble, R> method with the difference to the original that is creates a copy 
 // of the class for the web but for native it uses the original.
+// And one thing more - if using outside scope object "copies" you must focus on native first as you have no experience and the implementation the copies 
+// of objects for native seems tricky - when it runs correctly then it should also for web (of course web doesn't work on copies).
 //SUMMARY FOR THE ABOVE - IF YOU WRITE FULLY COMPATIBLE MULTIPLATFORM CODE.
 //The only way to run for both web and native is compute method which is great but
 //- for run() and spawn() BUT ALSO THE compute() method the same result (here spawn).
