@@ -40,9 +40,9 @@ prints:
 flutter: 10
 flutter: 11
 flutter: 21
+flutter: =============
 flutter: 10
 flutter: 20
-
 
 ===================================================================================
 You can apply a macro to an entire file/library (have no detailed knowledge to distinguish between them)
