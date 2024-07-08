@@ -6,7 +6,8 @@ Shon Connery: very naish https://pub.dev/packages/webcrypto
 ===================================================================================
 If you access unexisten element of a List - it throws. If Map returns null;
 ===================================================================================
-Isolates - for run and spawn the same result (here spawn).
+Isolates - for run() and spawn() BUT ALSO THE compute() method the same result (here spawn).
+As for the compute() IT IS THE ONLY METHOD THAT CAN BE RUN FOR WEB AND NATIVE. FOR NATIVE IT USES ISOLATE BUT FOR WEB CURRENT EVENT LOOP.
 So as the docs also says there is overhead related to it because of copying so it is sort of convenience syntax and they recommend using messaging for heavier longer running stuff.
 So in essence as the docs say copies of objects are copies you will never change the original object on the source isolate but the copy.
   https://dart.dev/language/isolates#running-an-existing-method-in-a-new-isolate
