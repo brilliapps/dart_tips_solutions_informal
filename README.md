@@ -9,14 +9,16 @@ If you access unexisten element of a List - it throws. If Map returns null;
 Isolates - native and web + ultimate solution for all platform.
 The bottom line: Warning for the web we don't work on the copy of the "higher-level-scope objects but on the original as i suspected including the argument passed as Message !!!
 So for a multiplatform code you can't change any higher-level-scope object except for reading data from them with the additional warning: Sometimes you can think you read a property from an object but it is getter, but the getter may set up some property. You must be sure then either you work on a simple higher-level scope object, or you must always investigate if a getter or method does the job but doesn't change any property involved.
-You can also make a interface/class (interface Serializable/CopyAble ?) maybe with factory or not maybe implementable where you declare a serialize/toJson and deserialize/fromJson - it means a fully scope independent where you can make a copy of an object of the class using serialize/deserialize feature. and make a second class ABCD {} with a static compute<M extends Serializable/CopyAble, R> method with the difference to the original that is creates a copy of the class for the web but for native it uses the original.
+You can also make a interface/class (interface Serializable/CopyAble ?
+BEFORE YOU INVENT THE WHEEL SEE https://api.dart.dev/stable/3.4.4/dart-isolate/SendPort/send.html - AT FIRST GLANCE SEEMS THERE MAY BE ALREADY SUCH CLASSES/OBJECTS
+) maybe with factory or not maybe implementable where you declare a serialize/toJson and deserialize/fromJson - it means a fully scope independent where you can make a copy of an object of the class using serialize/deserialize feature. and make a second class ABCD {} with a static compute<M extends Serializable/CopyAble, R> method with the difference to the original that is creates a copy of the class for the web but for native it uses the original.
 // And one thing more - if using outside scope object "copies" you must focus on native first as you have no experience and the implementation the copies 
 // of objects for native seems tricky - when it runs correctly then it should also for web (of course web doesn't work on copies).
 Again it is the same for the object passed as message of the compute method - it is not a copy for web. So you must always be aware of this topic.
 SUMMARY FOR THE ABOVE - IF YOU WRITE FULLY COMPATIBLE MULTIPLATFORM CODE.
 The only way to run for both web and native is compute method which is great but
 - for run() and spawn() BUT ALSO THE compute() method the same result (here spawn).
-As for the compute() IT IS THE ONLY METHOD THAT CAN BE RUN FOR WEB AND NATIVE. FOR NATIVE IT USES ISOLATE BUT FOR WEB CURRENT EVENT LOOP.
+As for the compute() IT IS THE ONLY METHOD THAT CAN BE RUN FOR WEB AND NATIVE IF YOU WANT TO USE ONE CODE. FOR NATIVE IT USES ISOLATE BUT FOR WEB CURRENT EVENT LOOP. YOU CAN USE THIS BECAUSE IT IS MAX EFFICIENT FOR "SLOWER" WEB.
 So as the docs also says there is overhead related to it because of copying so it is sort of convenience syntax and they recommend using messaging for heavier longer running stuff.
 So in essence as the docs say copies of objects are copies you will never change the original object on the source isolate but the copy.
   https://dart.dev/language/isolates#running-an-existing-method-in-a-new-isolate
