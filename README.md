@@ -9,7 +9,7 @@ https://users.rust-lang.org/t/can-rust-be-as-productive-as-dart-flutter-in-gui-d
 Also java/kotlin is well established and optimized, but the advantage of Dart is that it is compiled to machine code and by this it is doing prettly well in comparison to java for which it is very uncommon to be compiled to native code, probably you cannot easily determine if any lanugage in the following link is a clear winner but it shows that dart is doing well not mentioning languages like python, php (not optimized/opcoded?):
 https://programming-language-benchmarks.vercel.app/dart-vs-kotlin
 
-Also worth mentioning that Dart is targeting "all" platforms and for the most difficult platform web quickly develops in the direction of compilation to wasm and by this including solving the web platform compatibility related to f.e. int, double full compatibility.
+Also worth mentioning that Dart is targeting "all" platforms and for the most difficult platform web quickly develops in the direction of compilation to wasm and by this including solving the web platform compatibility related to f.e. int, double full compatibility. At the same time for any browser that lags behind in implementing new features of Wasm the code can be compiled into js - for such or the most feature-up-to-date browsers too. 
 
 ===================================================================================
 Shon Connery: very naish https://pub.dev/packages/webcrypto
