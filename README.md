@@ -6,7 +6,7 @@ Dart advantages:
 The below statement claims dart/flutter is more productive in gui development than the fast Rust:
 https://users.rust-lang.org/t/can-rust-be-as-productive-as-dart-flutter-in-gui-develpment/117329
 
-Also java/kotlin is well established and optimized, but the advantage of Dart is that it is compiled to machine code and by this it is doing prettly well in comparison to java for which it is very uncommon to be compiled to native code, probably you cannot easily determin if any lanugage in the following link is a clear winner but it shows that dart is doing well not mentioning languages like python, php (not optimized/opcoded?):
+Also java/kotlin is well established and optimized, but the advantage of Dart is that it is compiled to machine code and by this it is doing prettly well in comparison to java for which it is very uncommon to be compiled to native code, probably you cannot easily determine if any lanugage in the following link is a clear winner but it shows that dart is doing well not mentioning languages like python, php (not optimized/opcoded?):
 https://programming-language-benchmarks.vercel.app/dart-vs-kotlin
 
 Also worth mentioning that Dart is targeting "all" platforms and for the most difficult platform web quickly develops in the direction of compilation to wasm and by this including solving the web platform compatibility related to f.e. int, double full compatibility.
