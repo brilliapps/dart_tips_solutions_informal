@@ -2,6 +2,18 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+Useful for analysis stuff:
+constantPattern ::= booleanLiteral
+                  | nullLiteral
+                  | '-'? numericLiteral
+                  | stringLiteral
+                  | symbolLiteral
+                  | qualifiedName
+                  | constObjectExpression
+                  | 'const' typeArguments? '[' elements? ']'
+                  | 'const' typeArguments? '{' elements? '}'
+                  | 'const' '(' expression ')'
+===================================================================================
 Dart advantages:
 The below statement claims dart/flutter is more productive in gui development than the fast Rust:
 https://users.rust-lang.org/t/can-rust-be-as-productive-as-dart-flutter-in-gui-develpment/117329
