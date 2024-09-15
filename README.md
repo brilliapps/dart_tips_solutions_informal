@@ -2,6 +2,28 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+This will show an error because it is like union types matching good to remember:
+String value= '';
+final result = switch(value) {
+  bool v => 'it is a bool $v',
+  int v => 'it is an int $v',
+};
+
+but this wouldn't work - can't also remove "final v..." clause:
+  String value = '';
+  abc(Object? value) {
+    final result = switch (value) {
+      bool v => 'it is a bool $v',
+      int v => 'it is an int $v',
+      final v => throw Error,
+    };
+  }
+  abc(value);
+
+
+
+===================================================================================
+(The Randal)
 Useful for analysis stuff:
 constantPattern ::= booleanLiteral
                   | nullLiteral
