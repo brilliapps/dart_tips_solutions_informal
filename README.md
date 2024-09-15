@@ -9,7 +9,7 @@ final result = switch(value) {
   int v => 'it is an int $v',
 };
 
-but this wouldn't work - can't also remove "final v..." clause:
+but this wouldn't work and ends up being almost useless for before compilation static analysis perspective - can't also remove "final v..." clause:
   String value = '';
   abc(Object? value) {
     final result = switch (value) {
