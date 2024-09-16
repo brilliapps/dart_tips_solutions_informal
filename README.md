@@ -20,7 +20,7 @@ but this wouldn't work and ends up being almost useless for before compilation s
   }
   abc(value);
 
-
+But good to remember. and the solution like danno_script is absolutely good idea.
 
 ===================================================================================
 (The Randal)
