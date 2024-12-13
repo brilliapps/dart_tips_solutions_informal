@@ -2,6 +2,34 @@ dart_tips_solutions_informal
 ===================================================================================
 Some needed often difficult to find solutions, tips, etc. focusing on dart and VScode too.
 ===================================================================================
+Some question asked on discord, names/nicks not used because of other users privacy reasons:
+JUST BELOW THERE IS ANSWER TO THE FOLLOWING QUESTION:
+Is there a capturing syntax like (example not logical, it is to be simple):
+```dart
+if (final int abc = 10 == 10 && abc == 12 && abc==13 && abc==14) {
+  // if not declared as final:
+  abc = 15;
+}
+
+```
+This could be at least in the scope of if () expression ONLY or/and in the {} block - possibly two syntaxes for both situations.
+Many times i see it useful and convenient, because instead of int abc = 10 you could use int abc = mixinAndMixinClassDeclarations[namedType.type?.element?.id] or much much longer stuff
+Yes, the functionality could be achieved with some combination of () {} brackets, but the question remains.
+
+ANSWER:
+if (complicatedExpression case final variable when variable == something && variable != somethingElse && moreConditions(variable)) {
+  // variable still exists here.
+  // You can also declare it as non-final.
+}
+your example would be (i knew of this but probably didn't understand):
+if (10 case final int abc when abc == 10 && abc == 12 && abc == 13 && abc == 14) {
+  // ...
+}
+
+if (10 case == 10 && == 12 && == 13 && == 14) {
+  // ...
+}
+===================================================================================
 This will show an error because it is like union types matching good to remember:
 String value= '';
 final result = switch(value) {
