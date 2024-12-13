@@ -29,6 +29,63 @@ if (10 case final int abc when abc == 10 && abc == 12 && abc == 13 && abc == 14)
 if (10 case == 10 && == 12 && == 13 && == 14) {
   // ...
 }
+
+More questions answers excerpts examples
+Because i am in the discovery mode i have additional qustions; it doesn't particularly matter (it matters of course) if something is best technique or not and we can always ACCIDENTLY discover a need (or no need) for a new syntax flavour
+I know i could do this (so there is solution):
+if ((
+  namedType.type?.element?.id,
+  mixinAndMixinClassDeclarations[namedType.type?.element?.id]
+)
+    case final localDeclaration
+    when localDeclaration.$1 == null) {
+}
+
+But i couldn't destructure the record to separate variables could I?:
+if ((
+  namedType.type?.element?.id,
+  mixinAndMixinClassDeclarations[namedType.type?.element?.id]
+)
+    case final (loclaId, localDeclaration)
+    when localDeclaration == null ||
+        namedType.type?.element?.id == null) {
+}
+
+Also can't get the two separate variables like this (error Conditions must have a static type of 'bool'.) am i right?
+if (namedType.type?.element?.id case final localId when
+  (mixinAndMixinClassDeclarations[namedType.type?.element?.id]
+    case final localDeclaration
+    when localDeclaration == null ||
+        namedType.type?.element?.id == null)) {
+}
+ (edytowane)
+
+Sławek — Dziś o 12:41
+The following is also prohibited (without abc == true it would work):
+if (abc == true && mixinAndMixinClassDeclarations[namedType.type?.element?.id]
+  case final localDeclaration when localDeclaration == null) {
+}
+
+ANSWERS
+if ((
+  namedType.type?.element?.id,
+  mixinAndMixinClassDeclarations[namedType.type?.element?.id]
+)
+    case (final localId, final localDeclaration)
+    when localDeclaration == null || localId == null) {
+  // do something
+}
+
+AND WITH LINK TO SYNTAX PAGE 
+
+WE HAVE
+case (final localId?, final localDeclaration?)
+case (final localId!, final localDeclaration!)
+case (null, null)
+case (null, _) || (_, null)
+
+
+
 ===================================================================================
 This will show an error because it is like union types matching good to remember:
 String value= '';
